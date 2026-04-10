@@ -33,14 +33,7 @@
                 </div>
             </div>
 
-            <div class="box">
-                <div class="box-title">Thông tin</div>
-                <div class="left-menu">
-                    <a href="Dangky.jsp">Đăng ký tài khoản</a>
-                    <a href="Dangnhap.jsp">Đăng nhập hệ thống</a>
-                    <a href="Lienhe.jsp">Gửi liên hệ</a>
-                </div>
-            </div>
+           
         </div>
 
         <div class="content">

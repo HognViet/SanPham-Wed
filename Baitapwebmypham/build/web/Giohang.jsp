@@ -1,4 +1,29 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.LinkedHashMap"%>
+<%
+    Map<String, Integer> cart = (Map<String, Integer>) session.getAttribute("cart");
+    if (cart == null) {
+        cart = new LinkedHashMap<String, Integer>();
+        session.setAttribute("cart", cart);
+    }
+
+    String action = request.getParameter("action");
+    String id = request.getParameter("id");
+
+    if ("add".equals(action) && id != null && !id.trim().isEmpty()) {
+        Integer qty = cart.get(id);
+        cart.put(id, qty == null ? 1 : qty + 1);
+        response.sendRedirect(request.getContextPath() + "/Giohang.jsp");
+        return;
+    }
+
+    if ("remove".equals(action) && id != null && !id.trim().isEmpty()) {
+        cart.remove(id);
+        response.sendRedirect(request.getContextPath() + "/Giohang.jsp");
+        return;
+    }
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +39,7 @@
 
     <nav class="top-menu">
         <a href="Trangchu.jsp">TRANG CHỦ</a>
-        <a href="Trangchu.jsp#tatca">SẢN PHẨM</a>
+        <a href="Trangchu.jsp#noibat">SẢN PHẨM</a>
         <a href="Dangky.jsp">ĐĂNG KÝ</a>
         <a href="Dangnhap.jsp">ĐĂNG NHẬP</a>
         <a href="Giohang.jsp">GIỎ HÀNG</a>
@@ -26,19 +51,13 @@
             <div class="box">
                 <div class="box-title">Danh mục sản phẩm</div>
                 <div class="left-menu">
-                    <a href="Trangchu.jsp#tatca">Tất cả (12)</a>
-                    <a href="Trangchu.jsp#hangmoi">Hàng mới (4)</a>
-                    <a href="Trangchu.jsp#banchay">Bán chạy (4)</a>
-                    <a href="Trangchu.jsp#giamgia">Giảm giá (4)</a>
-                </div>
-            </div>
-
-            <div class="box">
-                <div class="box-title">Thông tin</div>
-                <div class="left-menu">
-                    <a href="Dangky.jsp">Đăng ký tài khoản</a>
-                    <a href="Dangnhap.jsp">Đăng nhập hệ thống</a>
-                    <a href="Lienhe.jsp">Gửi liên hệ</a>
+                    <a href="Trangchu.jsp#noibat">Sản phẩm nổi bật (3)</a>
+                    <a href="Trangchu.jsp#hangmoi">Hàng mới (3)</a>
+                    <a href="Trangchu.jsp#banchay">Bán chạy (3)</a>
+                    <a href="Trangchu.jsp#giamgia">Giảm giá (3)</a>
+                    <form class="home-search-form" action="<%= request.getContextPath() %>/Chitietsanpham.jsp" method="get">
+                        <input type="text" name="id" placeholder="Tìm kiếm..." required><br>
+                    <button type="submit">Tìm kiếm</button>
                 </div>
             </div>
         </div>
@@ -57,25 +76,78 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <%
+                            int tong = 0;
+                            if (cart.isEmpty()) {
+                        %>
                         <tr>
-                            <td>Son lì mềm mịn</td>
-                            <td>320,000 VND</td>
-                            <td>1</td>
-                            <td>320,000 VND</td>
-                            <td><a class="cart-remove" href="#">Xóa</a></td>
+                            <td colspan="5">Giỏ hàng đang trống. Hãy thêm sản phẩm từ trang chi tiết.</td>
                         </tr>
+                        <%
+                            } else {
+                                for (Map.Entry<String, Integer> item : cart.entrySet()) {
+                                    String maSp = item.getKey();
+                                    int soLuong = item.getValue();
+                                    String tenSp = maSp;
+                                    int donGia = 0;
+
+                                    if ("MP001".equals(maSp)) {
+                                        tenSp = "Son lì mềm mịn cao cấp";
+                                        donGia = 320000;
+                                    } else if ("MP002".equals(maSp)) {
+                                        tenSp = "Kem nền che phủ";
+                                        donGia = 289000;
+                                    } else if ("MP003".equals(maSp)) {
+                                        tenSp = "Phấn mắt 6 màu";
+                                        donGia = 199000;
+                                    } else if ("MP004".equals(maSp)) {
+                                        tenSp = "Serum cấp ẩm";
+                                        donGia = 350000;
+                                    } else if ("MP005".equals(maSp)) {
+                                        tenSp = "Sữa rửa mặt dịu nhẹ";
+                                        donGia = 149000;
+                                    } else if ("MP006".equals(maSp)) {
+                                        tenSp = "Kem chống nắng SPF50+";
+                                        donGia = 259000;
+                                    } else if ("MP007".equals(maSp)) {
+                                        tenSp = "Nước hoa mini 30ml";
+                                        donGia = 420000;
+                                    } else if ("MP008".equals(maSp)) {
+                                        tenSp = "Xịt khoáng dưỡng da";
+                                        donGia = 179000;
+                                    } else if ("MP009".equals(maSp)) {
+                                        tenSp = "Mặt nạ cấp nước";
+                                        donGia = 89000;
+                                    } else if ("MP010".equals(maSp)) {
+                                        tenSp = "Toner hoa cúc";
+                                        donGia = 199000;
+                                    } else if ("MP011".equals(maSp)) {
+                                        tenSp = "Kem dưỡng đêm";
+                                        donGia = 275000;
+                                    } else if ("MP012".equals(maSp)) {
+                                        tenSp = "Son dưỡng có màu";
+                                        donGia = 109000;
+                                    }
+
+                                    int thanhTien = donGia * soLuong;
+                                    tong += thanhTien;
+                        %>
                         <tr>
-                            <td>Kem chống nắng SPF50+</td>
-                            <td>259,000 VND</td>
-                            <td>2</td>
-                            <td>518,000 VND</td>
-                            <td><a class="cart-remove" href="#">Xóa</a></td>
+                            <td><%= tenSp %> (<%= maSp %>)</td>
+                            <td><%= String.format("%,d", donGia) %> VND</td>
+                            <td><%= soLuong %></td>
+                            <td><%= String.format("%,d", thanhTien) %> VND</td>
+                            <td><a class="cart-remove" href="<%= request.getContextPath() %>/Giohang.jsp?action=remove&id=<%= maSp %>">Xóa</a></td>
                         </tr>
+                        <%
+                                }
+                            }
+                        %>
                     </tbody>
                 </table>
 
                 <div class="cart-summary">
-                    <p>Tổng cộng: <strong>838,000 VND</strong></p>
+                    <p>Tổng cộng: <strong><%= String.format("%,d", tong) %> VND</strong></p>
                     <div class="cart-actions">
                         <a href="Trangchu.jsp" class="btn-detail">Tiếp tục mua hàng</a>
                         <a href="#" class="login-btn cart-checkout">Thanh toán</a>
