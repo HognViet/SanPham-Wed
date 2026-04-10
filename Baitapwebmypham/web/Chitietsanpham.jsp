@@ -169,7 +169,7 @@
                     </ul>
 
                     <div class="detail-actions">
-                        <a href="<%= request.getContextPath() %>/Giohang.jsp" class="btn-detail">Thêm vào giỏ</a>
+                        <a href="<%= request.getContextPath() %>/Giohang.jsp?action=add&id=<%= id %>" class="btn-detail">Thêm vào giỏ</a>
                         <a href="#" class="login-btn">Mua ngay</a>
                     </div>
                 </div>

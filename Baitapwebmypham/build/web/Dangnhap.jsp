@@ -30,17 +30,11 @@
                     <a href="Trangchu.jsp#hangmoi">Hàng mới (4)</a>
                     <a href="Trangchu.jsp#banchay">Bán chạy (4)</a>
                     <a href="Trangchu.jsp#giamgia">Giảm giá (4)</a>
+                    
                 </div>
             </div>
 
-            <div class="box">
-                <div class="box-title">Thông tin</div>
-                <div class="left-menu">
-                    <a href="Dangky.jsp">Đăng ký tài khoản</a>
-                    <a href="Dangnhap.jsp">Đăng nhập hệ thống</a>
-                    <a href="Lienhe.jsp">Gửi liên hệ</a>
-                </div>
-            </div>
+           
         </div>
 
         <div class="content">

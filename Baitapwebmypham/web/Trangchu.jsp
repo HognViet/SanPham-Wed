@@ -15,7 +15,7 @@
 
     <nav class="top-menu">
         <a href="<%= request.getContextPath() %>/Trangchu.jsp">TRANG CHỦ</a>
-        <a href="#tatca">SẢN PHẨM</a>
+        <a href="#noibat">SẢN PHẨM</a>
         <a href="<%= request.getContextPath() %>/Dangky.jsp">ĐĂNG KÝ</a>
         <a href="<%= request.getContextPath() %>/Dangnhap.jsp">ĐĂNG NHẬP</a>
         <a href="<%= request.getContextPath() %>/Giohang.jsp">GIỎ HÀNG</a>
@@ -27,27 +27,26 @@
             <div class="box">
                 <div class="box-title">Danh mục sản phẩm</div>
                 <div class="left-menu">
-                    <a href="#tatca">Tất cả (12)</a>
-                    <a href="#hangmoi">Hàng mới (4)</a>
-                    <a href="#banchay">Bán chạy (4)</a>
-                    <a href="#giamgia">Giảm giá (4)</a>
+                    <a href="#noibat">Sản phẩm nổi bật (3)</a>
+                    <a href="#hangmoi">Hàng mới (3)</a>
+                    <a href="#banchay">Bán chạy (3)</a>
+                    <a href="#giamgia">Giảm giá (3)</a>
+                    
                 </div>
+                
             </div>
+            <form class="home-search-form" action="<%= request.getContextPath() %>/Chitietsanpham.jsp" method="get">
+                        <input type="text" name="id" placeholder="Tìm kiếm..." required><br>
+                    <button type="submit">Tìm kiếm</button>
+                </form>
 
-            <div class="box">
-                <div class="box-title">Thông tin</div>
-                <div class="left-menu">
-                    <a href="Dangky.jsp">Đăng ký tài khoản</a>
-                    <a href="Dangnhap.jsp">Đăng nhập hệ thống</a>
-                    <a href="Lienhe.jsp">Gửi liên hệ</a>
-                </div>
-            </div>
+            
         </div>
 
         <div class="content">
-            <div id="tatca" class="content-title">Sản phẩm nổi bật</div>
+            <div id="noibat" class="content-title">Sản phẩm nổi bật</div>
             <div class="grid">
-                <div id="hangmoi" class="card">
+                <div class="card">
                     <img src="https://picsum.photos/300/220?11" alt="Son li mem min">
                     <div class="card-body">
                         <div class="code">Ma SP: MP001</div>
@@ -74,6 +73,10 @@
                         <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP003">Xem chi tiet</a>
                     </div>
                 </div>
+            </div>
+
+            <div id="hangmoi" class="content-title">Hàng mới</div>
+            <div class="grid">
                 <div class="card">
                     <img src="https://picsum.photos/300/220?14" alt="Serum cap am">
                     <div class="card-body">
@@ -83,8 +86,7 @@
                         <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP004">Xem chi tiet</a>
                     </div>
                 </div>
-
-                <div id="banchay" class="card">
+                <div class="card">
                     <img src="https://picsum.photos/300/220?21" alt="Sua rua mat diu nhe">
                     <div class="card-body">
                         <div class="code">Ma SP: MP005</div>
@@ -102,6 +104,10 @@
                         <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP006">Xem chi tiet</a>
                     </div>
                 </div>
+            </div>
+
+            <div id="banchay" class="content-title">Hàng bán chạy</div>
+            <div class="grid">
                 <div class="card">
                     <img src="https://picsum.photos/300/220?23" alt="Nuoc hoa mini">
                     <div class="card-body">
@@ -120,8 +126,7 @@
                         <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP008">Xem chi tiet</a>
                     </div>
                 </div>
-
-                <div id="giamgia" class="card">
+                <div class="card">
                     <img src="https://picsum.photos/300/220?31" alt="Mat na cap nuoc">
                     <div class="card-body">
                         <div class="code">Ma SP: MP009</div>
@@ -130,6 +135,10 @@
                         <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP009">Xem chi tiet</a>
                     </div>
                 </div>
+            </div>
+
+            <div id="giamgia" class="content-title">Hàng giảm giá</div>
+            <div class="grid">
                 <div class="card">
                     <img src="https://picsum.photos/300/220?32" alt="Tonner hoa cuc">
                     <div class="card-body">
