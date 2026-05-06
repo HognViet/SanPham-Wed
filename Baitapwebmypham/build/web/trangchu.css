@@ -10,6 +10,7 @@ body {
 .banner {
     background: #f5d8e5;
     padding: 4px 0;
+   
 }
 
 .banner img {
@@ -20,16 +21,6 @@ body {
     object-position: center;
     display: block;
 }
-
-.top-menu {
-    background: #ef4b8a;
-    display: flex;
-    justify-content: stretch;
-    align-items: center;
-    padding: 2px 0;
-    flex-wrap: nowrap;
-}
-
 .top-menu a {
     flex: 1;
     text-align: center;
@@ -39,8 +30,11 @@ body {
     transition: background .28s ease, color .28s ease;
     font-weight: 700;
     font-size: 12px;
-    letter-spacing: .2px;
-    border-right: 1px solid rgba(255, 255, 255, .65);
+    margin: 0 10px;
+    text-align: center;
+    padding: 10px 6px;
+    font-weight: 700;
+    letter-spacing: .2px;   
 }
 
 .top-menu a:hover {
@@ -51,6 +45,76 @@ body {
 
 .top-menu a:last-child {
     border-right: none;
+}
+
+
+.top-menu i {
+    margin-right: 5px;
+}
+
+
+.top-menu {
+    background: #ef4b8a;
+    display: flex;
+    
+    align-items: center;
+    justify-content: stretch;
+    padding: 2px 0;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    padding: 8px 16px;
+}
+
+
+/* LEFT */
+.nav-left a {
+    color: #fff;
+    
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* CENTER SEARCH */
+.nav-center form {
+    display: flex;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.nav-center input {
+    border: none;
+    padding: 8px 10px;
+    width: 250px;
+    outline: none;
+}
+
+.nav-center button {
+    border: none;
+    background: #ff6600;
+    color: #fff;
+    padding: 0 12px;
+    cursor: pointer;
+}
+
+/* RIGHT ICON */
+.nav-right a {
+    color: #fff;
+    margin-left: 18px;
+    font-size: 18px;
+    position: relative;
+}
+
+/* BADGE GIỎ HÀNG */
+.cart-count {
+    position: absolute;
+    top: -6px;
+    right: -10px;
+    background: red;
+    color: #fff;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 50%;
 }
 
 .container {
@@ -98,9 +162,7 @@ body {
     color: #db3f73;
 }
 
-.home-search-form {
-    padding: 12px;
-}
+
 
 .home-search-form input {
     width: 100%;

@@ -33,14 +33,7 @@
                 </div>
             </div>
 
-            <div class="box">
-                <div class="box-title">Thông tin</div>
-                <div class="left-menu">
-                    <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký tài khoản</a>
-                    <a href="<%= request.getContextPath() %>/Dangnhap.jsp">Đăng nhập hệ thống</a>
-                    <a href="<%= request.getContextPath() %>/Lienhe.jsp">Gửi liên hệ</a>
-                </div>
-            </div>
+            
         </div>
 
         <div class="content">
