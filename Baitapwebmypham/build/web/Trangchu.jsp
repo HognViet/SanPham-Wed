@@ -16,9 +16,10 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Trang chu - Website ban hang online</title>
+    <title>Thaosonviet.vn|Mỹ phẩm&Clinic</title>
     
-    <link href="trangchu.css" rel="stylesheet" type="text/css"/>
+    <link href="<%= request.getContextPath() %>/trangchu.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
 </head>
@@ -26,7 +27,8 @@
     
     <div class="banner">
         
-        <img src="image/bannerweb.png" alt=""/>
+        
+        <img src="image/bannermypham.png" alt=""/>
     </div>
 
     
@@ -39,11 +41,10 @@
     </div>
             <div class="nav-center">
    
-        <form class="search-bar" action="<%= request.getContextPath() %>/chitietsanpham" method="get">
+        <form  action="<%= request.getContextPath() %>/chitietsanpham" method="get">
             <input type="text" name="id" placeholder="Tìm sản phẩm, thương hiệu bạn mong muốn..." required>
-            <button type="submit"><i class="fa fa-search"></i>
-    </button>
-</form>
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
     </div>
 <%
     Integer cartCount = (Integer) session.getAttribute("cartCount");
@@ -52,10 +53,11 @@ if (cartCount == null) cartCount = 0;
     <!-- RIGHT: ICON -->
     <div class="nav-right">
         
-        <a href="#noibat">SẢN PHẨM</a>
-        <a href="<%= request.getContextPath() %>/Dangky.jsp">ĐĂNG KÝ</a>
+        <a href="#noibat">Sản phẩm</a>
+        <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
         <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
-            <i class="fa-solid fa-user"></i> ĐĂNG NHẬP
+            <i class="fa-solid fa-user"></i> 
+            <span>Đăng nhập</span>
         </a>
         
         
@@ -99,7 +101,7 @@ if (cartCount == null) cartCount = 0;
                     if (noibatList != null && !noibatList.isEmpty()) {
                         for (Mypham sp : noibatList) {
                 %>
-                <div class="card">
+                <div class="card product-card" data-detail-url="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">
                     <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
                     <div class="card-body">
                         <div class="code">Ma SP: <%= sp.getId() %></div>
@@ -108,6 +110,7 @@ if (cartCount == null) cartCount = 0;
                         <a class="btn-detail" href="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">Xem chi tiet</a>
                     </div>
                 </div>
+                    
                 <%
                         }
                     } else {
@@ -123,7 +126,7 @@ if (cartCount == null) cartCount = 0;
                     if (hangmoiList != null && !hangmoiList.isEmpty()) {
                         for (Mypham sp : hangmoiList) {
                 %>
-                <div class="card">
+                <div class="card product-card" data-detail-url="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">
                     <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
                     <div class="card-body">
                         <div class="code">Ma SP: <%= sp.getId() %></div>
@@ -148,7 +151,7 @@ if (cartCount == null) cartCount = 0;
                     if (banchayList != null && !banchayList.isEmpty()) {
                         for (Mypham sp : banchayList) {
                 %>
-                <div class="card">
+                <div class="card product-card" data-detail-url="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">
                     <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
                     <div class="card-body">
                         <div class="code">Ma SP: <%= sp.getId() %></div>
@@ -173,7 +176,7 @@ if (cartCount == null) cartCount = 0;
                     if (giamgiaList != null && !giamgiaList.isEmpty()) {
                         for (Mypham sp : giamgiaList) {
                 %>
-                <div class="card">
+                <div class="card product-card" data-detail-url="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">
                     <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
                     <div class="card-body">
                         <div class="code">Ma SP: <%= sp.getId() %></div>
@@ -223,6 +226,20 @@ if (cartCount == null) cartCount = 0;
             input.value = "";
             messages.scrollTop = messages.scrollHeight;
         }
+    </script>
+
+    <script>
+        document.querySelectorAll(".product-card").forEach(function (card) {
+            card.addEventListener("click", function (event) {
+                if (event.target.closest("a, button, input")) {
+                    return;
+                }
+                var detailUrl = card.getAttribute("data-detail-url");
+                if (detailUrl) {
+                    window.location.href = detailUrl;
+                }
+            });
+        });
     </script>
 </body>
 </html>

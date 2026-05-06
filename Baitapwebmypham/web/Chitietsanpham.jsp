@@ -26,21 +26,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Chi tiet san pham - Website ban hang online</title>
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/trangchu.css?v=20260407"/>
-    <link href="trangchu.css" rel="stylesheet" type="text/css"/>
+    <link href="<%= request.getContextPath() %>/trangchu.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <div class="banner">
         <img src="image/bannerweb.png" alt="Banner website">
     </div>
 
+    <%
+        Integer cartCount = (Integer) session.getAttribute("cartCount");
+        if (cartCount == null) cartCount = 0;
+    %>
     <nav class="top-menu">
-        <a href="<%= request.getContextPath() %>/trangchu">TRANG CHỦ</a>
-        <a href="<%= request.getContextPath() %>/trangchu#tatca">SẢN PHẨM</a>
-        <a href="<%= request.getContextPath() %>/Dangky.jsp">ĐĂNG KÝ</a>
-        <a href="<%= request.getContextPath() %>/Dangnhap.jsp">ĐĂNG NHẬP</a>
-        <a href="<%= request.getContextPath() %>/Giohang.jsp">GIỎ HÀNG</a>
-        <a href="<%= request.getContextPath() %>/Lienhe.jsp">LIÊN HỆ</a>
+        <div class="nav-left">
+            <a href="<%= request.getContextPath() %>/trangchu">
+                <i class="fa fa-home"></i>
+            </a>
+        </div>
+        <div class="nav-center">
+            <form action="<%= request.getContextPath() %>/chitietsanpham" method="get">
+                <input type="text" name="id" placeholder="Tìm sản phẩm, thương hiệu bạn mong muốn..." required>
+                <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+        </div>
+        <div class="nav-right">
+            <a href="<%= request.getContextPath() %>/trangchu#noibat">Sản phẩm</a>
+            <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
+            <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
+                <i class="fa-solid fa-user"></i>
+                <span>Đăng nhập</span>
+            </a>
+            <a href="<%= request.getContextPath() %>/Giohang.jsp" class="cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count"><%= cartCount %></span>
+            </a>
+            <a href="<%= request.getContextPath() %>/Lienhe.jsp">
+                <i class="fa-solid fa-headset"></i> Liên hệ
+            </a>
+        </div>
     </nav>
 
     <div class="container">
