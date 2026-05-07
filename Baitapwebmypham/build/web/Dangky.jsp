@@ -4,21 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Dang ky - Website ban hang online</title>
-    <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/trangchu.css?v=20260407"/>
-    <link href="trangchu.css" rel="stylesheet" type="text/css"/>
+    <link href="<%= request.getContextPath() %>/trangchu.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <div class="banner">
         <img src="image/bannerweb.png" alt="Banner website">
     </div>
 
+    <%
+        Integer cartCount = (Integer) session.getAttribute("cartCount");
+        if (cartCount == null) cartCount = 0;
+    %>
     <nav class="top-menu">
-        <a href="Trangchu.jsp">TRANG CHỦ</a>
-        <a href="Trangchu.jsp#tatca">SẢN PHẨM</a>
-        <a href="Dangky.jsp">ĐĂNG KÝ</a>
-        <a href="Dangnhap.jsp">ĐĂNG NHẬP</a>
-        <a href="#">GIỎ HÀNG</a>
-        <a href="Lienhe.jsp">LIÊN HỆ</a>
+        <div class="nav-left">
+            <a href="<%= request.getContextPath() %>/trangchu">
+                <i class="fa fa-home"></i>
+            </a>
+        </div>
+        <div class="nav-center">
+            
+        </div>
+        <div class="nav-right">
+            <a href="<%= request.getContextPath() %>/trangchu#noibat">Sản phẩm</a>
+            <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
+            <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
+                <i class="fa-solid fa-user"></i>
+                <span>Đăng nhập</span>
+            </a>
+            <a href="<%= request.getContextPath() %>/Giohang.jsp" class="cart-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="cart-count"><%= cartCount %></span>
+            </a>
+            <a href="<%= request.getContextPath() %>/Lienhe.jsp">
+                <i class="fa-solid fa-headset"></i> Liên hệ
+            </a>
+        </div>
     </nav>
 
     <div class="container">

@@ -1,27 +1,78 @@
+<%@page import="java.util.List"%>
+<%@page import="Model.Mypham"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    if (request.getAttribute("mvcForward") == null) {
+        response.sendRedirect(request.getContextPath() + "/trangchu");
+        return;
+    }
+    List<Mypham> noibatList = (List<Mypham>) request.getAttribute("noibatList");
+    List<Mypham> hangmoiList = (List<Mypham>) request.getAttribute("hangmoiList");
+    List<Mypham> banchayList = (List<Mypham>) request.getAttribute("banchayList");
+    List<Mypham> giamgiaList = (List<Mypham>) request.getAttribute("giamgiaList");
+    String dbWarning = (String) request.getAttribute("dbWarning");
+%>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Trang chu - Website ban hang online</title>
+    <title>Thaosonviet.vn|Mỹ phẩm&Clinic</title>
     
-    <link href="trangchu.css" rel="stylesheet" type="text/css"/>
+    <link href="<%= request.getContextPath() %>/trangchu.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
 </head>
 <body>
+    
     <div class="banner">
         
-        <img src="image/bannerweb.png" alt=""/>
+        
+        <img src="image/bannermypham.png" alt=""/>
     </div>
 
-    <nav class="top-menu">
-        <a href="<%= request.getContextPath() %>/Trangchu.jsp">TRANG CHỦ</a>
-        <a href="#noibat">SẢN PHẨM</a>
-        <a href="<%= request.getContextPath() %>/Dangky.jsp">ĐĂNG KÝ</a>
-        <a href="<%= request.getContextPath() %>/Dangnhap.jsp">ĐĂNG NHẬP</a>
-        <a href="<%= request.getContextPath() %>/Giohang.jsp">GIỎ HÀNG</a>
-        <a href="<%= request.getContextPath() %>/Lienhe.jsp">LIÊN HỆ</a>
-    </nav>
+    
+        <nav class="top-menu">
+            <!-- LEFT -->
+            <div class="nav-left">
+        <a href="<%= request.getContextPath() %>/trangchu">
+            <i class="fa fa-home"></i>
+        </a>
+    </div>
+            <div class="nav-center">
+   
+        <form  action="<%= request.getContextPath() %>/chitietsanpham" method="get">
+            <input type="text" name="id" placeholder="Tìm sản phẩm, thương hiệu bạn mong muốn..." required>
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </form>
+    </div>
+<%
+    Integer cartCount = (Integer) session.getAttribute("cartCount");
+if (cartCount == null) cartCount = 0;
+%>
+    <!-- RIGHT: ICON -->
+    <div class="nav-right">
+        
+        <a href="#noibat">Sản phẩm</a>
+        <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
+        <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
+            <i class="fa-solid fa-user"></i> 
+            <span>Đăng nhập</span>
+        </a>
+        
+        
 
+        <a href="<%= request.getContextPath() %>/Giohang.jsp" class="cart-icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="cart-count"><%= cartCount %></span>
+        </a>
+
+        <a href="<%= request.getContextPath() %>/Lienhe.jsp">
+            <i class="fa-solid fa-headset"></i> Liên hệ
+        </a>
+    </div>
+
+</nav>
     <div class="container">
         <div class="left">
             <div class="box">
@@ -35,137 +86,113 @@
                 </div>
                 
             </div>
-            <form class="home-search-form" action="<%= request.getContextPath() %>/Chitietsanpham.jsp" method="get">
-                        <input type="text" name="id" placeholder="Tìm kiếm..." required><br>
-                    <button type="submit">Tìm kiếm</button>
-                </form>
+            
 
             
         </div>
 
         <div class="content">
+            <% if (dbWarning != null && !dbWarning.isEmpty()) { %>
+            <p style="color: #d9534f; font-weight: bold;"><%= dbWarning %></p>
+            <% } %>
             <div id="noibat" class="content-title">Sản phẩm nổi bật</div>
             <div class="grid">
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?11" alt="Son li mem min">
+                <%
+                    if (noibatList != null && !noibatList.isEmpty()) {
+                        for (Mypham sp : noibatList) {
+                %>
+                <div class="card product-card" data-detail-url="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">
+                    <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
                     <div class="card-body">
-                        <div class="code">Ma SP: MP001</div>
-                        <div class="name">Son li mem min</div>
-                        <div class="price">320,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP001">Xem chi tiet</a>
+                        <div class="code">Ma SP: <%= sp.getId() %></div>
+                        <div class="name"><%= sp.getTen() %></div>
+                        <div class="price"><%= sp.getGia() %></div>
+                        <a class="btn-detail" href="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">Xem chi tiet</a>
                     </div>
                 </div>
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?12" alt="Kem nen che phu">
-                    <div class="card-body">
-                        <div class="code">Ma SP: MP002</div>
-                        <div class="name">Kem nen che phu</div>
-                        <div class="price">289,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP002">Xem chi tiet</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?13" alt="Phan mat 6 mau">
-                    <div class="card-body">
-                        <div class="code">Ma SP: MP003</div>
-                        <div class="name">Phan mat 6 mau</div>
-                        <div class="price">199,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP003">Xem chi tiet</a>
-                    </div>
-                </div>
+                    
+                <%
+                        }
+                    } else {
+                %>
+                <p>Chua co du lieu cho danh muc nay.</p>
+                <%
+                    }
+                %>
             </div>
-
             <div id="hangmoi" class="content-title">Hàng mới</div>
             <div class="grid">
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?14" alt="Serum cap am">
+                <%
+                    if (hangmoiList != null && !hangmoiList.isEmpty()) {
+                        for (Mypham sp : hangmoiList) {
+                %>
+                <div class="card product-card" data-detail-url="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">
+                    <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
                     <div class="card-body">
-                        <div class="code">Ma SP: MP004</div>
-                        <div class="name">Serum cap am</div>
-                        <div class="price">350,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP004">Xem chi tiet</a>
+                        <div class="code">Ma SP: <%= sp.getId() %></div>
+                        <div class="name"><%= sp.getTen() %></div>
+                        <div class="price"><%= sp.getGia() %></div>
+                        <a class="btn-detail" href="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">Xem chi tiet</a>
                     </div>
                 </div>
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?21" alt="Sua rua mat diu nhe">
-                    <div class="card-body">
-                        <div class="code">Ma SP: MP005</div>
-                        <div class="name">Sua rua mat diu nhe</div>
-                        <div class="price">149,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP005">Xem chi tiet</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?22" alt="Kem chong nang SPF50">
-                    <div class="card-body">
-                        <div class="code">Ma SP: MP006</div>
-                        <div class="name">Kem chong nang SPF50+</div>
-                        <div class="price">259,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP006">Xem chi tiet</a>
-                    </div>
-                </div>
+                <%
+                        }
+                    } else {
+                %>
+                <p>Chua co du lieu cho danh muc nay.</p>
+                <%
+                    }
+                %>
             </div>
 
             <div id="banchay" class="content-title">Hàng bán chạy</div>
             <div class="grid">
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?23" alt="Nuoc hoa mini">
+                <%
+                    if (banchayList != null && !banchayList.isEmpty()) {
+                        for (Mypham sp : banchayList) {
+                %>
+                <div class="card product-card" data-detail-url="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">
+                    <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
                     <div class="card-body">
-                        <div class="code">Ma SP: MP007</div>
-                        <div class="name">Nuoc hoa mini 30ml</div>
-                        <div class="price">420,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP007">Xem chi tiet</a>
+                        <div class="code">Ma SP: <%= sp.getId() %></div>
+                        <div class="name"><%= sp.getTen() %></div>
+                        <div class="price"><%= sp.getGia() %></div>
+                        <a class="btn-detail" href="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">Xem chi tiet</a>
                     </div>
                 </div>
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?24" alt="Xit khoang duong da">
-                    <div class="card-body">
-                        <div class="code">Ma SP: MP008</div>
-                        <div class="name">Xit khoang duong da</div>
-                        <div class="price">179,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP008">Xem chi tiet</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?31" alt="Mat na cap nuoc">
-                    <div class="card-body">
-                        <div class="code">Ma SP: MP009</div>
-                        <div class="name">Mat na cap nuoc</div>
-                        <div class="price">89,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP009">Xem chi tiet</a>
-                    </div>
-                </div>
+                <%
+                        }
+                    } else {
+                %>
+                <p>Chua co du lieu cho danh muc nay.</p>
+                <%
+                    }
+                %>
             </div>
 
             <div id="giamgia" class="content-title">Hàng giảm giá</div>
             <div class="grid">
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?32" alt="Tonner hoa cuc">
+                <%
+                    if (giamgiaList != null && !giamgiaList.isEmpty()) {
+                        for (Mypham sp : giamgiaList) {
+                %>
+                <div class="card product-card" data-detail-url="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">
+                    <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
                     <div class="card-body">
-                        <div class="code">Ma SP: MP010</div>
-                        <div class="name">Toner hoa cuc</div>
-                        <div class="price">199,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP010">Xem chi tiet</a>
+                        <div class="code">Ma SP: <%= sp.getId() %></div>
+                        <div class="name"><%= sp.getTen() %></div>
+                        <div class="price"><%= sp.getGia() %></div>
+                        <a class="btn-detail" href="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">Xem chi tiet</a>
                     </div>
                 </div>
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?33" alt="Kem duong dem">
-                    <div class="card-body">
-                        <div class="code">Ma SP: MP011</div>
-                        <div class="name">Kem duong dem</div>
-                        <div class="price">275,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP011">Xem chi tiet</a>
-                    </div>
-                </div>
-                <div class="card">
-                    <img src="https://picsum.photos/300/220?34" alt="Son duong co mau">
-                    <div class="card-body">
-                        <div class="code">Ma SP: MP012</div>
-                        <div class="name">Son duong co mau</div>
-                        <div class="price">109,000 VND</div>
-                        <a class="btn-detail" href="<%= request.getContextPath() %>/Chitietsanpham.jsp?id=MP012">Xem chi tiet</a>
-                    </div>
-                </div>
+                <%
+                        }
+                    } else {
+                %>
+                <p>Chua co du lieu cho danh muc nay.</p>
+                <%
+                    }
+                %>
             </div>
         </div>
     </div>
@@ -199,6 +226,20 @@
             input.value = "";
             messages.scrollTop = messages.scrollHeight;
         }
+    </script>
+
+    <script>
+        document.querySelectorAll(".product-card").forEach(function (card) {
+            card.addEventListener("click", function (event) {
+                if (event.target.closest("a, button, input")) {
+                    return;
+                }
+                var detailUrl = card.getAttribute("data-detail-url");
+                if (detailUrl) {
+                    window.location.href = detailUrl;
+                }
+            });
+        });
     </script>
 </body>
 </html>
