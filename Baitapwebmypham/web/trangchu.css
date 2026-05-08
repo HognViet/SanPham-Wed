@@ -133,7 +133,34 @@ body {
 .nav-right a:hover {
     opacity: 0.85;
 }
+/* User avatar khi đã đăng nhập */
+.user-avatar-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
 
+.user-avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #e91e8c; /* màu hồng của web bạn */
+    font-weight: bold;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e91e8c;
+    flex-shrink: 0;
+}
+
+.user-avatar-name {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+}
 /* BADGE GIỎ HÀNG */
 .cart-count {
     position: absolute;

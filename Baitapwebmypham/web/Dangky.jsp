@@ -60,7 +60,7 @@
         <div class="content">
             <div class="content-title">Đăng ký tài khoản</div>
             <div class="login-wrapper">
-                <form class="login-form" action="#" method="post">
+                <form class="login-form" action="Dangky" method="post">
                     <label for="fullName">Tên tài khoản</label>
                     <input id="fullName" name="fullName" type="text" placeholder="Nhập tên tài khoản" required>
 
@@ -119,5 +119,15 @@
             messages.scrollTop = messages.scrollHeight;
         }
     </script>
+    <%
+        String mess = request.getParameter("mess");
+    %>
+    <% if (mess != null && mess.equals("exist")) { %>
+    <script>
+        window.onload = function() {
+            alert("Người dùng đã tồn tại nhập lại tên đăng nhập hoặc tên tài khoản!!!!");
+        }
+    </script>
+    <% } %>
 </body>
 </html>

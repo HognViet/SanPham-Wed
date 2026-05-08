@@ -3,14 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Java%20Web/SanPham-Wed/Baitapwebmypham/web/Trangchu.jsp</file>
-            <file>file:/C:/Java%20Web/SanPham-Wed/Baitapwebmypham/web/Dangky.jsp</file>
-            <file>file:/C:/Java%20Web/SanPham-Wed/Baitapwebmypham/web/Giohang.jsp</file>
-            <file>file:/C:/Java%20Web/SanPham-Wed/Baitapwebmypham/web/thanhtoan.jsp</file>
-            <file>file:/C:/Java%20Web/SanPham-Wed/Baitapwebmypham/web/trangchu.css</file>
-            <file>file:/C:/Java%20Web/SanPham-Wed/Baitapwebmypham/web/Lienhe.jsp</file>
-            <file>file:/C:/Java%20Web/SanPham-Wed/Baitapwebmypham/web/Chitietsanpham.jsp</file>
-            <file>file:/C:/Java%20Web/SanPham-Wed/Baitapwebmypham/web/Dangnhap.jsp</file>
+            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/web/Trangchu.jsp</file>
+            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/src/java/Controller/TrangchuController.java</file>
+            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/web/Dangky.jsp</file>
+            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/src/java/Model/UsersDAO.java</file>
+            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/src/java/Model/Users.java</file>
+            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/src/java/Controller/Dangky.java</file>
         </group>
     </open-files>
 </project-private>

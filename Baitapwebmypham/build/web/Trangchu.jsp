@@ -241,5 +241,15 @@ if (cartCount == null) cartCount = 0;
             });
         });
     </script>
+        <%
+        String mess = (String) request.getAttribute("mess");
+        %>
+        <% if (mess != null) { %>
+        <script>
+            window.onload = function() {
+                alert("<%= mess %>");
+            }
+        </script>
+        <% } %>
 </body>
 </html>
