@@ -18,10 +18,10 @@ public class TrangchuController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<Mypham> noibatList = myphamDAO.getByDanhMuc("noibat", 3);
-        List<Mypham> hangmoiList = myphamDAO.getByDanhMuc("hangmoi", 3);
-        List<Mypham> banchayList = myphamDAO.getByDanhMuc("banchay", 3);
-        List<Mypham> giamgiaList = myphamDAO.getByDanhMuc("giamgia", 3);
+        List<Mypham> noibatList = myphamDAO.getByDanhMuc("noibat", 30);
+        List<Mypham> hangmoiList = myphamDAO.getByDanhMuc("hangmoi", 30);
+        List<Mypham> banchayList = myphamDAO.getByDanhMuc("banchay", 30);
+        List<Mypham> giamgiaList = myphamDAO.getByDanhMuc("giamgia", 30);
 
         request.setAttribute("noibatList", noibatList);
         request.setAttribute("hangmoiList", hangmoiList);
