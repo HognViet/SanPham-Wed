@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/web/Trangchu.jsp</file>
-            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/src/java/Controller/TrangchuController.java</file>
-            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/web/Dangky.jsp</file>
-            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/src/java/Model/UsersDAO.java</file>
-            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/src/java/Controller/Dangky.java</file>
-            <file>file:/D:/Tren_Lop/Nam3-K1/WedMyPham/Baitapwebmypham/web/trangchu.css</file>
+            <file>file:/D:/BtNhom/Baitapwebmypham/web/Trangchu.jsp</file>
+            <file>file:/D:/BtNhom/Baitapwebmypham/src/java/Controller/ChitietsanphamController.java</file>
+            <file>file:/D:/BtNhom/Baitapwebmypham/src/java/Controller/TrangchuController.java</file>
         </group>
     </open-files>
 </project-private>
