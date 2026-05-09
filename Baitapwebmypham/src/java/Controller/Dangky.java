@@ -41,8 +41,28 @@ public class Dangky extends HttpServlet {
             u.email = request.getParameter("email");
             u.phone = request.getParameter("phone");
             u.address = request.getParameter("address");
-            UsersDAO ud = new UsersDAO();
             
+            String confirmPass = request.getParameter("confirmPassword");
+            UsersDAO ud = new UsersDAO();
+            // Check email phải có đuôi @gmail.com
+            if (!u.email.endsWith("@gmail.com")) {
+                response.sendRedirect("Dangky.jsp?mess=emailError");
+                return;
+            }
+
+            // Check phone chỉ chứa số và đủ 10 chữ số
+            if (!u.phone.matches("\\d{10}")) {
+                response.sendRedirect("Dangky.jsp?mess=phoneError");
+                return;
+            }
+
+            // Check mật khẩu khớp
+            if (!confirmPass.equals(u.pass)) {
+                response.sendRedirect("Dangky.jsp?mess=error");
+                return;
+            }
+
+            // Check tồn tại trong DB
             if (!ud.isExist(u)) {
                 ud.AddUser(u);
                 response.sendRedirect("trangchu?mess=success");

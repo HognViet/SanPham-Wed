@@ -119,15 +119,44 @@
             messages.scrollTop = messages.scrollHeight;
         }
     </script>
-    <%
-        String mess = request.getParameter("mess");
-    %>
-    <% if (mess != null && mess.equals("exist")) { %>
-    <script>
-        window.onload = function() {
-            alert("Người dùng đã tồn tại nhập lại tên đăng nhập hoặc tên tài khoản!!!!");
-        }
-    </script>
-    <% } %>
+        <%
+    String mess = request.getParameter("mess");
+        %>
+        <% if (mess != null) { %>
+        <div id="popup-overlay">
+            <div id="popup-box">
+                <% if (mess.equals("exist")) { %>
+                    <i class="fas fa-triangle-exclamation" style="font-size:48px; color:#e67e22; margin-bottom:15px; display:block;"></i>
+                    <p id="popup-message" class="mess-exist">
+                        Người dùng đã tồn tại, nhập lại tên đăng nhập hoặc tên tài khoản!
+                    </p>
+                <% } else if (mess.equals("emailError")) { %>
+                    <i class="fas fa-envelope-circle-check" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+                    <p id="popup-message" class="mess-email">
+                        Email không hợp lệ, phải có đuôi @gmail.com!
+                    </p>
+                <% } else if (mess.equals("phoneError")) { %>
+                    <i class="fas fa-phone-slash" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+                    <p id="popup-message" class="mess-phone">
+                        Số điện thoại phải gồm đúng 10 chữ số!
+                    </p>
+                <% } else { %>
+                    <i class="fas fa-circle-xmark" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+                    <p id="popup-message" class="mess-error">
+                        Nhập mật khẩu không khớp, hãy nhập lại!
+                    </p>
+                <% } %>
+                <button id="popup-close" onclick="closePopup()">Đóng</button>
+            </div>
+        </div>
+        <script>
+            window.addEventListener("load", function () {
+                document.getElementById("popup-overlay").style.display = "flex";
+            });
+            function closePopup() {
+                document.getElementById("popup-overlay").style.display = "none";
+            }
+        </script>
+        <% } %>
 </body>
 </html>

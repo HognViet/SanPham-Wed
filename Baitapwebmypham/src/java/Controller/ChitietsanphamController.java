@@ -39,5 +39,5 @@ public class ChitietsanphamController extends HttpServlet {
         request.setAttribute("sanpham", sanpham);
         request.setAttribute("mvcForward", true);
         request.getRequestDispatcher("/Chitietsanpham.jsp").forward(request, response);
-    }
+    } 
 }

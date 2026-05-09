@@ -78,10 +78,10 @@ if (cartCount == null) cartCount = 0;
             <div class="box">
                 <div class="box-title">Danh mục sản phẩm</div>
                 <div class="left-menu">
-                    <a href="#noibat">Sản phẩm nổi bật (3)</a>
-                    <a href="#hangmoi">Hàng mới (3)</a>
-                    <a href="#banchay">Bán chạy (3)</a>
-                    <a href="#giamgia">Giảm giá (3)</a>
+                    <a href="#noibat">Sản phẩm nổi bật </a>
+                    <a href="#hangmoi">Hàng mới </a>
+                    <a href="#banchay">Bán chạy </a>
+                    <a href="#giamgia">Giảm giá </a>
                     
                 </div>
                 
@@ -242,12 +242,22 @@ if (cartCount == null) cartCount = 0;
         });
     </script>
         <%
-        String mess = (String) request.getAttribute("mess");
+            String mess = (String) request.getAttribute("mess");
         %>
         <% if (mess != null) { %>
+        <div id="popup-overlay">
+            <div id="popup-box">
+                <i class="fas fa-circle-check"></i>
+                <p id="popup-message" class="mess-success"><%= mess %></p>
+                <button id="popup-close" onclick="closePopup()">Đóng</button>
+            </div>
+        </div>
         <script>
-            window.onload = function() {
-                alert("<%= mess %>");
+            window.addEventListener("load", function () {
+                document.getElementById("popup-overlay").style.display = "flex";
+            });
+            function closePopup() {
+                document.getElementById("popup-overlay").style.display = "none";
             }
         </script>
         <% } %>
