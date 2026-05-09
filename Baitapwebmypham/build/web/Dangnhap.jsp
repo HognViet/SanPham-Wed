@@ -61,7 +61,7 @@
         <div class="content">
             <div class="content-title">Đăng nhập tài khoản</div>
             <div class="login-wrapper">
-                <form class="login-form" action="#" method="post">
+                <form class="login-form" action="Login" method="post">
                     <label for="username">Tên đăng nhập</label>
                     <input id="username" name="username" type="text" placeholder="Nhập tên đăng nhập" required>
 
@@ -113,5 +113,27 @@
             messages.scrollTop = messages.scrollHeight;
         }
     </script>
+    <%
+        String mess = request.getParameter("mess");
+    %>
+    <% if (mess != null && mess.equals("errorlogin")) { %>
+        <div id="popup-overlay">
+            <div id="popup-box">
+                <i class="fas fa-circle-xmark" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+                <p id="popup-message" class="mess-error">
+                    Tên đăng nhập hoặc mật khẩu không đúng!!!
+                </p>
+                <button id="popup-close" onclick="closePopup()">Đóng</button>
+            </div>
+        </div>
+        <script>
+            window.addEventListener("load", function () {
+                document.getElementById("popup-overlay").style.display = "flex";
+            });
+            function closePopup() {
+                document.getElementById("popup-overlay").style.display = "none";
+            }
+        </script>
+    <% } %>
 </body>
 </html>
