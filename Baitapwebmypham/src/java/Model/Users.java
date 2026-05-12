@@ -10,6 +10,7 @@ package Model;
  * @author HongViet
  */
 public class Users {
+    public int mauser;
     public String accname;
     public String loginname;
     public String pass;
@@ -27,6 +28,14 @@ public class Users {
         this.email = email;
         this.phone = phone;
         this.address = address;
+    }
+
+    public int getMauser() {
+        return mauser;
+    }
+
+    public void setMauser(int mauser) {
+        this.mauser = mauser;
     }
 
     public String getAccname() {

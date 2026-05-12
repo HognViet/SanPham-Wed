@@ -3,9 +3,29 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/BtNhom/Baitapwebmypham/web/Trangchu.jsp</file>
-            <file>file:/D:/BtNhom/Baitapwebmypham/src/java/Controller/ChitietsanphamController.java</file>
-            <file>file:/D:/BtNhom/Baitapwebmypham/src/java/Controller/TrangchuController.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/web/Trangchu.jsp</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/web/Lienhe.jsp</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/web/thanhtoan.jsp</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/web/Giohang.jsp</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/web/Chitietsanpham.jsp</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/web/Dangnhap.jsp</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/web/Dangky.jsp</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Controller/ThanhToan.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/CartItem.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Controller/GioHangController.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Controller/TrangchuController.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Controller/ThemSPVaoGioHang.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Controller/ChitietsanphamController.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Controller/XoaKhoiGio.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/Cart.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/GioHangDAO.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/Mypham.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/MyphamDAO.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/dbConnection.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/UsersDAO.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/Users.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Model/UsersConnection.java</file>
+            <file>file:/G:/Hogn%20Viet/Nam3%20K1/THTK&amp;PT%20WED/Do%20an%20mon/Baitapwebmypham/src/java/Controller/logout.java</file>
         </group>
     </open-files>
 </project-private>

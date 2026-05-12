@@ -2,6 +2,8 @@
 <%@page import="java.util.List"%>
 <%@page import="Model.Mypham"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Model.Users"%>
+<%@page import="Model.GioHangDAO"%>
 
 <%
     if (request.getAttribute("mvcForward") == null) {
@@ -16,12 +18,16 @@
 
     String dbWarning = (String) request.getAttribute("dbWarning");
 
-    Integer cartCount = (Integer) session.getAttribute("cartCount");
-    if (cartCount == null) {
-        cartCount = 0;
-    }
-
     Users userLogin = (Users) session.getAttribute("userLogin");
+    int cartCount = 0;
+    if (userLogin != null) {
+        try {
+            GioHangDAO ghDAO = new GioHangDAO();
+            cartCount = ghDAO.countItems(userLogin.mauser);
+        } catch (Exception e) {
+            cartCount = 0;
+        }
+    }
 %>
 
 <!DOCTYPE html>
@@ -431,9 +437,8 @@
 
         <!-- FOOTER -->
         <div class="footer">
-            Nguyen Thi Phuong Thao - 25/11/2005 |
-            Ngo Van Son |
-            Ninh Hong Viet
+                    Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
+
         </div>
 
 

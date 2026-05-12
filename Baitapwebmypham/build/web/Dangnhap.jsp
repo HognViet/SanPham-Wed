@@ -96,7 +96,7 @@
     </div>
 
     <div class="footer">
-        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son - |Ninh Hong Viet
+        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
     </div>
     <script>
         function toggleAiChat() {

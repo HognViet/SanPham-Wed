@@ -37,11 +37,16 @@ public class Login extends HttpServlet {
             String _username = request.getParameter("username");
             String _pass = request.getParameter("password");
             UsersDAO ud = new UsersDAO();
-            if (ud.Login(_username, _pass)) {
-                Users u = ud.getUserByLogin(_username); // lấy thông tin user
-                request.getSession().setAttribute("userLogin", u); // lưu vào session
+            if (!ud.isUserExist(_username)) {
+                // Không tồn tại → về trang đăng ký
+                response.sendRedirect("Dangky.jsp?mess=notexist");
+            } else if (ud.Login(_username, _pass)) {
+                // Đúng thông tin → đăng nhập thành công
+                Users u = ud.getUserByLogin(_username);
+                request.getSession().setAttribute("userLogin", u);
                 response.sendRedirect("trangchu?mess=successlogin");
             } else {
+                // Sai mật khẩu → về trang đăng nhập
                 response.sendRedirect("Dangnhap.jsp?mess=errorlogin");
             }
             try (PrintWriter out = response.getWriter()) {

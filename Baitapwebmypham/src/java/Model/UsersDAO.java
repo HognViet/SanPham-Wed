@@ -66,7 +66,7 @@ public class UsersDAO {
             cnn = UsersConnection.getConnection();
         }
 
-        String sqlCheck = "SELECT * FROM users WHERE loginname = ? OR pass = ?";
+        String sqlCheck = "SELECT * FROM users WHERE loginname = ? AND pass = ?";
         PreparedStatement ps = null;
         ResultSet rs = null;
 
@@ -93,13 +93,30 @@ public class UsersDAO {
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             Users u = new Users();
+            u.mauser    = rs.getInt("mauser");
             u.accname   = rs.getString("accname");
             u.loginname = rs.getString("loginname");
             u.email     = rs.getString("email");
             u.phone     = rs.getString("phone");
             u.address   = rs.getString("address");
+            
             return u;
         }
         return null;
+    }
+    public boolean isUserExist(String loginname) throws ClassNotFoundException, SQLException {
+        Connection cnn = UsersConnection.getConnection();
+        String sql = "SELECT * FROM users WHERE loginname = ?";
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        try {
+            ps = cnn.prepareStatement(sql);
+            ps.setString(1, loginname);
+            rs = ps.executeQuery();
+            return rs.next();
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+        }
     }
 }

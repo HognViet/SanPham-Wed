@@ -1,50 +1,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.LinkedHashMap"%>
-<%
-    Map<String, Integer> cart = (Map<String, Integer>) session.getAttribute("cart");
-    if (cart == null) {
-        cart = new LinkedHashMap<String, Integer>();
-    }
-
-    int tong = 0;
-    for (Map.Entry<String, Integer> item : cart.entrySet()) {
-        String maSp = item.getKey();
-        int soLuong = item.getValue();
-        int donGia = 0;
-
-        if ("MP001".equals(maSp)) {
-            donGia = 320000;
-        } else if ("MP002".equals(maSp)) {
-            donGia = 289000;
-        } else if ("MP003".equals(maSp)) {
-            donGia = 199000;
-        } else if ("MP004".equals(maSp)) {
-            donGia = 350000;
-        } else if ("MP005".equals(maSp)) {
-            donGia = 149000;
-        } else if ("MP006".equals(maSp)) {
-            donGia = 259000;
-        } else if ("MP007".equals(maSp)) {
-            donGia = 420000;
-        } else if ("MP008".equals(maSp)) {
-            donGia = 179000;
-        } else if ("MP009".equals(maSp)) {
-            donGia = 89000;
-        } else if ("MP010".equals(maSp)) {
-            donGia = 199000;
-        } else if ("MP011".equals(maSp)) {
-            donGia = 275000;
-        } else if ("MP012".equals(maSp)) {
-            donGia = 109000;
-        }
-
-        tong += donGia * soLuong;
-    }
-
-    Integer cartCount = (Integer) session.getAttribute("cartCount");
-    if (cartCount == null) cartCount = 0;
-%>
+<%@page import="Model.Users"%>
+<%@page import="Model.GioHangDAO"%>
+<%@page import="Model.CartItem"%>
+<%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,6 +11,25 @@
     <link rel="stylesheet" type="text/css" href="<%= request.getContextPath() %>/trangchu.css?v=<%= System.currentTimeMillis() %>"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+    <%
+        Users userLogin = (Users) session.getAttribute("userLogin");
+        int cartCount = 0;
+        List<CartItem> cartItems = null;
+        double tong = 0;
+
+        if (userLogin != null) {
+            try {
+                GioHangDAO ghDAO = new GioHangDAO();
+                cartItems = ghDAO.getCartItems(userLogin.mauser);
+                cartCount = ghDAO.countItems(userLogin.mauser);
+                for (CartItem item : cartItems) {
+                    tong += item.price * item.quantity;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    %>
 <body>
     <div class="banner">
         <img src="image/bannermypham.png" alt="Banner website">
@@ -72,12 +49,23 @@
         </div>
         <div class="nav-right">
             <a href="<%= request.getContextPath() %>/trangchu#noibat">Sản phẩm</a>
-            <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
-            <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
-                <i class="fa-solid fa-user"></i>
-                <span>Đăng nhập</span>
-            </a>
-            <a href="<%= request.getContextPath() %>/Giohang.jsp" class="cart-icon">
+            <% if (userLogin == null) { %>
+                <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
+                <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Đăng nhập</span>
+                </a>
+            <% } else { %>
+                <a href="#">
+                    <i class="fa-solid fa-user"></i>
+                    <span><%= userLogin.accname %></span>
+                </a>
+                <a href="#" onclick="showLogoutPopup()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Đăng xuất</span>
+                </a>
+            <% } %>
+            <a href="<%= request.getContextPath() %>/GioHangController" class="cart-icon">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="cart-count"><%= cartCount %></span>
             </a>
@@ -103,11 +91,11 @@
         <div class="content">
             <div class="content-title">Thanh toán đơn hàng</div>
             <div class="contact-wrapper">
-                <% if (cart.isEmpty()) { %>
+                    <% if (cartItems == null || cartItems.isEmpty()) { %>                    
                     <p>Giỏ hàng đang trống. Vui lòng thêm sản phẩm trước khi thanh toán.</p>
                     <a href="<%= request.getContextPath() %>/trangchu" class="btn-detail">Về trang chủ</a>
                 <% } else { %>
-                    <form class="contact-form" action="#" method="post">
+                        <form class="contact-form" action="<%= request.getContextPath() %>/ThanhToan" method="post">    
                         <label for="fullName">Họ và tên người nhận</label>
                         <input id="fullName" name="fullName" type="text" placeholder="Nhập họ và tên" required>
 
@@ -136,7 +124,7 @@
                         </select>
 
                         <div class="cart-summary" style="text-align:left;margin-top:14px;">
-                            <p>Tạm tính: <strong><%= String.format("%,d", tong) %> VND</strong></p>
+                           <p>Tạm tính: <strong><%= String.format("%,.0f", tong) %> VND</strong></p>
                         </div>
 
                         <button type="submit" class="login-btn">XÁC NHẬN ĐẶT HÀNG</button>
@@ -147,7 +135,26 @@
     </div>
 
     <div class="footer">
-        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son - |Ninh Hong Viet
+        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
     </div>
+            <!-- Popup đăng xuất -->
+        <div id="logout-overlay">
+            <div id="logout-box">
+                <i class="fas fa-right-from-bracket" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+                <p id="logout-message">Bạn có chắc muốn đăng xuất không?</p>
+                <div id="logout-buttons">
+                    <button id="btn-cancel" onclick="closeLogoutPopup()">Huỷ</button>
+                    <button id="btn-confirm" onclick="window.location.href='<%= request.getContextPath() %>/Dangxuat'">Đăng xuất</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            function showLogoutPopup() {
+                document.getElementById("logout-overlay").style.display = "flex";
+            }
+            function closeLogoutPopup() {
+                document.getElementById("logout-overlay").style.display = "none";
+            }
+        </script>
 </body>
 </html>

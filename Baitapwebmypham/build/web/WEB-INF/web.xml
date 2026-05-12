@@ -12,6 +12,22 @@
         <servlet-name>logout</servlet-name>
         <servlet-class>Controller.logout</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ThemSPVaoGioHang</servlet-name>
+        <servlet-class>Controller.ThemSPVaoGioHang</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GioHangController</servlet-name>
+        <servlet-class>Controller.GioHangController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>XoaKhoiGio</servlet-name>
+        <servlet-class>Controller.XoaKhoiGio</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ThanhToan</servlet-name>
+        <servlet-class>Controller.ThanhToan</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Dangky</servlet-name>
         <url-pattern>/Dangky</url-pattern>
@@ -23,5 +39,21 @@
     <servlet-mapping>
         <servlet-name>logout</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThemSPVaoGioHang</servlet-name>
+        <url-pattern>/ThemSPVaoGioHang</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GioHangController</servlet-name>
+        <url-pattern>/GioHangController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>XoaKhoiGio</servlet-name>
+        <url-pattern>/XoaKhoiGio</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ThanhToan</servlet-name>
+        <url-pattern>/ThanhToan</url-pattern>
     </servlet-mapping>
 </web-app>

@@ -102,7 +102,7 @@
     </div>
 
     <div class="footer">
-        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son - |Ninh Hong Viet
+        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
     </div>
     <script>
         function toggleAiChat() {
@@ -139,7 +139,12 @@
                     <i class="fas fa-phone-slash" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
                     <p id="popup-message" class="mess-phone">
                         Số điện thoại phải gồm đúng 10 chữ số!
-                    </p>
+                    </p>                    
+                <% } else if (mess.equals("notexist")) { %>
+                        <i class="fas fa-user-slash" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+                        <p id="popup-message" class="mess-error">
+                            Tài khoản chưa được đăng ký, hãy đăng ký ngay!
+                        </p>
                 <% } else { %>
                     <i class="fas fa-circle-xmark" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
                     <p id="popup-message" class="mess-error">

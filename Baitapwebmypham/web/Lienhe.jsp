@@ -1,4 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Model.Users"%>
+<%@page import="Model.GioHangDAO"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +15,16 @@
     </div>
 
     <%
-        Integer cartCount = (Integer) session.getAttribute("cartCount");
-        if (cartCount == null) cartCount = 0;
+        Users userLogin = (Users) session.getAttribute("userLogin");
+        int cartCount = 0;
+        if (userLogin != null) {
+            try {
+                GioHangDAO ghDAO = new GioHangDAO();
+                cartCount = ghDAO.countItems(userLogin.mauser);
+            } catch (Exception e) {
+                cartCount = 0;
+            }
+        }
     %>
     <nav class="top-menu">
         <div class="nav-left">
@@ -27,12 +37,23 @@
         </div>
         <div class="nav-right">
             <a href="<%= request.getContextPath() %>/trangchu#noibat">Sản phẩm</a>
-            <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
-            <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
-                <i class="fa-solid fa-user"></i>
-                <span>Đăng nhập</span>
-            </a>
-            <a href="<%= request.getContextPath() %>/Giohang.jsp" class="cart-icon">
+            <% if (userLogin == null) { %>
+                <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
+                <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Đăng nhập</span>
+                </a>
+            <% } else { %>
+                <a href="#">
+                    <i class="fa-solid fa-user"></i>
+                    <span><%= userLogin.accname %></span>
+                </a>
+                <a href="#" onclick="showLogoutPopup()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Đăng xuất</span>
+                </a>
+            <% } %>
+            <a href="<%= request.getContextPath() %>/GioHangController" class="cart-icon">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="cart-count"><%= cartCount %></span>
             </a>
@@ -100,7 +121,7 @@
     </div>
 
     <div class="footer">
-        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son - |Ninh Hong Viet
+        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
     </div>
     <script>
         function toggleAiChat() {
@@ -117,5 +138,24 @@
             messages.scrollTop = messages.scrollHeight;
         }
     </script>
+    <!-- Popup đăng xuất -->
+        <div id="logout-overlay">
+            <div id="logout-box">
+                <i class="fas fa-right-from-bracket" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+                <p id="logout-message">Bạn có chắc muốn đăng xuất không?</p>
+                <div id="logout-buttons">
+                    <button id="btn-cancel" onclick="closeLogoutPopup()">Huỷ</button>
+                    <button id="btn-confirm" onclick="window.location.href='<%= request.getContextPath() %>/Dangxuat'">Đăng xuất</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            function showLogoutPopup() {
+                document.getElementById("logout-overlay").style.display = "flex";
+            }
+            function closeLogoutPopup() {
+                document.getElementById("logout-overlay").style.display = "none";
+            }
+        </script>
 </body>
 </html>

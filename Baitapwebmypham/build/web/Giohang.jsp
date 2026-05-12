@@ -1,28 +1,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.LinkedHashMap"%>
+<%@page import="Model.CartItem"%>
+<%@page import="java.util.List"%>
+<%@page import="Model.Users"%>
+<%@page import="Model.GioHangDAO"%>
 <%
-    Map<String, Integer> cart = (Map<String, Integer>) session.getAttribute("cart");
-    if (cart == null) {
-        cart = new LinkedHashMap<String, Integer>();
-        session.setAttribute("cart", cart);
-    }
-
-    String action = request.getParameter("action");
-    String id = request.getParameter("id");
-
-    if ("add".equals(action) && id != null && !id.trim().isEmpty()) {
-        Integer qty = cart.get(id);
-        cart.put(id, qty == null ? 1 : qty + 1);
-        response.sendRedirect(request.getContextPath() + "/Giohang.jsp");
-        return;
-    }
-
-    if ("remove".equals(action) && id != null && !id.trim().isEmpty()) {
-        cart.remove(id);
-        response.sendRedirect(request.getContextPath() + "/Giohang.jsp");
-        return;
-    }
+    List<CartItem> cartItems = (List<CartItem>) request.getAttribute("cartItems");
+    Double total = (Double) request.getAttribute("total");
+    if (total == null) total = 0.0;
 %>
 <!DOCTYPE html>
 <html>
@@ -38,8 +22,16 @@
     </div>
 
     <%
-        Integer cartCount = (Integer) session.getAttribute("cartCount");
-        if (cartCount == null) cartCount = 0;
+        Users userLogin = (Users) session.getAttribute("userLogin");
+        int cartCount = 0;
+        if (userLogin != null) {
+            try {
+                GioHangDAO ghDAO = new GioHangDAO();
+                cartCount = ghDAO.countItems(userLogin.mauser);
+            } catch (Exception e) {
+                cartCount = 0;
+            }
+        }
     %>
     <nav class="top-menu">
         <div class="nav-left">
@@ -52,12 +44,23 @@
         </div>
         <div class="nav-right">
             <a href="<%= request.getContextPath() %>/trangchu#noibat">Sản phẩm</a>
-            <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
-            <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
-                <i class="fa-solid fa-user"></i>
-                <span>Đăng nhập</span>
-            </a>
-            <a href="<%= request.getContextPath() %>/Giohang.jsp" class="cart-icon">
+            <% if (userLogin == null) { %>
+                <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
+                <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Đăng nhập</span>
+                </a>
+            <% } else { %>
+                <a href="#">
+                    <i class="fa-solid fa-user"></i>
+                    <span><%= userLogin.accname %></span>
+                </a>
+                <a href="#" onclick="showLogoutPopup()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Đăng xuất</span>
+                </a>
+            <% } %>
+            <a href="<%= request.getContextPath() %>/GioHangController" class="cart-icon">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="cart-count"><%= cartCount %></span>
             </a>
@@ -72,10 +75,10 @@
             <div class="box">
                 <div class="box-title">Danh mục sản phẩm</div>
                 <div class="left-menu">
-                    <a href="Trangchu.jsp#noibat">Sản phẩm nổi bật (3)</a>
-                    <a href="Trangchu.jsp#hangmoi">Hàng mới (3)</a>
-                    <a href="Trangchu.jsp#banchay">Bán chạy (3)</a>
-                    <a href="Trangchu.jsp#giamgia">Giảm giá (3)</a>
+                    <a href="Trangchu.jsp#noibat">Sản phẩm nổi bật </a>
+                    <a href="Trangchu.jsp#hangmoi">Hàng mới </a>
+                    <a href="Trangchu.jsp#banchay">Bán chạy </a>
+                    <a href="Trangchu.jsp#giamgia">Giảm giá </a>
                     <form class="home-search-form" action="<%= request.getContextPath() %>/Chitietsanpham.jsp" method="get">
                         <input type="text" name="id" placeholder="Tìm kiếm..." required><br>
                     <button type="submit">Tìm kiếm</button>
@@ -96,80 +99,22 @@
                             <th>Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <%
-                            int tong = 0;
-                            if (cart.isEmpty()) {
-                        %>
-                        <tr>
-                            <td colspan="5">Giỏ hàng đang trống. Hãy thêm sản phẩm từ trang chi tiết.</td>
-                        </tr>
-                        <%
-                            } else {
-                                for (Map.Entry<String, Integer> item : cart.entrySet()) {
-                                    String maSp = item.getKey();
-                                    int soLuong = item.getValue();
-                                    String tenSp = maSp;
-                                    int donGia = 0;
-
-                                    if ("MP001".equals(maSp)) {
-                                        tenSp = "Son lì mềm mịn cao cấp";
-                                        donGia = 320000;
-                                    } else if ("MP002".equals(maSp)) {
-                                        tenSp = "Kem nền che phủ";
-                                        donGia = 289000;
-                                    } else if ("MP003".equals(maSp)) {
-                                        tenSp = "Phấn mắt 6 màu";
-                                        donGia = 199000;
-                                    } else if ("MP004".equals(maSp)) {
-                                        tenSp = "Serum cấp ẩm";
-                                        donGia = 350000;
-                                    } else if ("MP005".equals(maSp)) {
-                                        tenSp = "Sữa rửa mặt dịu nhẹ";
-                                        donGia = 149000;
-                                    } else if ("MP006".equals(maSp)) {
-                                        tenSp = "Kem chống nắng SPF50+";
-                                        donGia = 259000;
-                                    } else if ("MP007".equals(maSp)) {
-                                        tenSp = "Nước hoa mini 30ml";
-                                        donGia = 420000;
-                                    } else if ("MP008".equals(maSp)) {
-                                        tenSp = "Xịt khoáng dưỡng da";
-                                        donGia = 179000;
-                                    } else if ("MP009".equals(maSp)) {
-                                        tenSp = "Mặt nạ cấp nước";
-                                        donGia = 89000;
-                                    } else if ("MP010".equals(maSp)) {
-                                        tenSp = "Toner hoa cúc";
-                                        donGia = 199000;
-                                    } else if ("MP011".equals(maSp)) {
-                                        tenSp = "Kem dưỡng đêm";
-                                        donGia = 275000;
-                                    } else if ("MP012".equals(maSp)) {
-                                        tenSp = "Son dưỡng có màu";
-                                        donGia = 109000;
-                                    }
-
-                                    int thanhTien = donGia * soLuong;
-                                    tong += thanhTien;
-                        %>
-                        <tr>
-                            <td><%= tenSp %> (<%= maSp %>)</td>
-                            <td><%= String.format("%,d", donGia) %> VND</td>
-                            <td><%= soLuong %></td>
-                            <td><%= String.format("%,d", thanhTien) %> VND</td>
-                            <td><a class="cart-remove" href="<%= request.getContextPath() %>/Giohang.jsp?action=remove&id=<%= maSp %>">Xóa</a></td>
-                        </tr>
-                        <%
-                                }
-                            }
-                        %>
-                    </tbody>
+                        <% if (cartItems == null || cartItems.isEmpty()) { %>
+                            <tr><td colspan="5">Giỏ hàng đang trống!</td></tr>
+                            <% } else { for (CartItem item : cartItems) { %>
+                                <tr>
+                                    <td><img src="<%= item.hinh %>" style="width:50px"> <%= item.ten %></td>
+                                    <td><%= String.format("%,.0f", item.price) %> VND</td>
+                                    <td><%= item.quantity %></td>
+                                    <td><%= String.format("%,.0f", item.price * item.quantity) %> VND</td>
+                                    <td><a class="cart-remove" href="<%= request.getContextPath() %>/XoaKhoiGio?cart_item_id=<%= item.cart_item_id %>">Xóa</a></td>
+                                </tr>
+                            <% }} %>
                 </table>
 
                 <div class="cart-summary">
-                    <p>Tổng cộng: <strong><%= String.format("%,d", tong) %> VND</strong></p>
-                    <div class="cart-actions">
+                <p>Tổng cộng: <strong><%= String.format("%,.0f", total) %> VND</strong></p>
+                <div class="cart-actions">
                         <a href="Trangchu.jsp" class="btn-detail">Tiếp tục mua hàng</a>
                         <a href="<%= request.getContextPath() %>/thanhtoan.jsp" class="login-btn cart-checkout">Thanh toán</a>
                     </div>
@@ -191,7 +136,7 @@
     </div>
 
     <div class="footer">
-        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son - |Ninh Hong Viet
+        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son - |Ninh Hong Viet - 09/11/2005
     </div>
     <script>
         function toggleAiChat() {
@@ -208,5 +153,24 @@
             messages.scrollTop = messages.scrollHeight;
         }
     </script>
+    <!-- Popup đăng xuất -->
+        <div id="logout-overlay">
+            <div id="logout-box">
+                <i class="fas fa-right-from-bracket" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+                <p id="logout-message">Bạn có chắc muốn đăng xuất không?</p>
+                <div id="logout-buttons">
+                    <button id="btn-cancel" onclick="closeLogoutPopup()">Huỷ</button>
+                    <button id="btn-confirm" onclick="window.location.href='<%= request.getContextPath() %>/Dangxuat'">Đăng xuất</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            function showLogoutPopup() {
+                document.getElementById("logout-overlay").style.display = "flex";
+            }
+            function closeLogoutPopup() {
+                document.getElementById("logout-overlay").style.display = "none";
+            }
+        </script>
 </body>
 </html>

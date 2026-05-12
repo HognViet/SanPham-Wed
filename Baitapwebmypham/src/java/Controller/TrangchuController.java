@@ -33,6 +33,8 @@ public class TrangchuController extends HttpServlet {
             request.setAttribute("mess", "Đăng ký tài khoản thành công!");
         } else if (mess != null && mess.equals("successlogin")) {
             request.setAttribute("mess", "Đăng nhập thành công!");
+        }else if (mess != null && mess.equals("orderSuccess")) {
+            request.setAttribute("mess", "Đặt hàng thành công! Cảm ơn bạn đã mua hàng.");
         }
         if (noibatList.isEmpty() && hangmoiList.isEmpty() && banchayList.isEmpty() && giamgiaList.isEmpty()) {
             request.setAttribute("dbWarning", "Khong lay duoc du lieu. Hay kiem tra: MySQL da chay, da import webmypham_demo.sql, dung DB webmypham.");

@@ -1,5 +1,7 @@
 <%@page import="Model.Mypham"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Model.Users"%>
+<%@page import="Model.GioHangDAO"%>
 <%
     if (request.getAttribute("mvcForward") == null) {
         String idParam = request.getParameter("id");
@@ -35,8 +37,16 @@
     </div>
 
     <%
-        Integer cartCount = (Integer) session.getAttribute("cartCount");
-        if (cartCount == null) cartCount = 0;
+        Users userLogin = (Users) session.getAttribute("userLogin");
+        int cartCount = 0;
+        if (userLogin != null) {
+            try {
+                GioHangDAO ghDAO = new GioHangDAO();
+                cartCount = ghDAO.countItems(userLogin.mauser);
+            } catch (Exception e) {
+                cartCount = 0;
+            }
+        }
     %>
     <nav class="top-menu">
         <div class="nav-left">
@@ -51,13 +61,24 @@
             </form>
         </div>
         <div class="nav-right">
-            <a href="<%= request.getContextPath() %>/trangchu#noibat">Sản phẩm</a>
-            <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
-            <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
-                <i class="fa-solid fa-user"></i>
-                <span>Đăng nhập</span>
-            </a>
-            <a href="<%= request.getContextPath() %>/Giohang.jsp" class="cart-icon">
+                <a href="<%= request.getContextPath() %>/trangchu#noibat">Sản phẩm</a>            
+                <% if (userLogin == null) { %>
+                <a href="<%= request.getContextPath() %>/Dangky.jsp">Đăng ký</a>
+                <a href="<%= request.getContextPath() %>/Dangnhap.jsp">
+                    <i class="fa-solid fa-user"></i>
+                    <span>Đăng nhập</span>
+                </a>
+            <% } else { %>
+                <a href="#">
+                    <i class="fa-solid fa-user"></i>
+                    <span><%= userLogin.accname %></span>
+                </a>
+                <a href="#" onclick="showLogoutPopup()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Đăng xuất</span>
+                </a>
+            <% } %>
+            <a href="<%= request.getContextPath() %>/GioHangController" class="cart-icon">
                 <i class="fa-solid fa-cart-shopping"></i>
                 <span class="cart-count"><%= cartCount %></span>
             </a>
@@ -103,8 +124,11 @@
                     </ul>
 
                     <div class="detail-actions">
-                        <a href="<%= request.getContextPath() %>/Giohang.jsp?action=add&id=<%= id %>" class="btn-detail">Thêm vào giỏ</a>
-                        <a href="#" class="login-btn">Mua ngay</a>
+                    <form action="<%= request.getContextPath() %>/ThemSPVaoGioHang" method="post">
+                        <input type="hidden" name="mypham_id" value="<%= id %>">
+                        <input type="hidden" name="price" value="<%= gia %>">
+                        <button type="submit" class="btn-detail">Thêm vào giỏ</button>
+                    </form>                        <a href="thanhtoan.jsp" class="login-btn">Mua ngay</a>
                     </div>
                 </div>
             </div>
@@ -124,7 +148,7 @@
     </div>
 
     <div class="footer">
-        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son - |Ninh Hong Viet
+        Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
     </div>
     <script>
         function toggleAiChat() {
@@ -139,6 +163,25 @@
             messages.innerHTML += '<div class="ai-msg bot">Cam on ban! Day la giao dien frontend de tich hop AI API sau.</div>';
             input.value = "";
             messages.scrollTop = messages.scrollHeight;
+        }
+    </script>
+    <!-- Popup đăng xuất -->
+    <div id="logout-overlay">
+        <div id="logout-box">
+            <i class="fas fa-right-from-bracket" style="font-size:48px; color:#e74c3c; margin-bottom:15px; display:block;"></i>
+            <p id="logout-message">Bạn có chắc muốn đăng xuất không?</p>
+            <div id="logout-buttons">
+                <button id="btn-cancel" onclick="closeLogoutPopup()">Huỷ</button>
+                <button id="btn-confirm" onclick="window.location.href='<%= request.getContextPath() %>/Dangxuat'">Đăng xuất</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showLogoutPopup() {
+            document.getElementById("logout-overlay").style.display = "flex";
+        }
+        function closeLogoutPopup() {
+            document.getElementById("logout-overlay").style.display = "none";
         }
     </script>
 </body>
