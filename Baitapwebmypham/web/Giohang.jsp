@@ -139,20 +139,38 @@
         Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son - |Ninh Hong Viet - 09/11/2005
     </div>
     <script>
-        function toggleAiChat() {
-            document.getElementById("aiChatBox").classList.toggle("open");
+    function toggleAiChat() {
+        document.getElementById("aiChatBox").classList.toggle("open");
+    }
+
+    async function sendAiMessage() {
+        var input = document.getElementById("aiChatInput");
+        var text = input.value.trim();
+        if (!text) return;
+        var messages = document.getElementById("aiChatMessages");
+        messages.innerHTML += '<div class="ai-msg user">' + text + '</div>';
+        input.value = "";
+        var loadingId = "loading-" + Date.now();
+        messages.innerHTML += '<div class="ai-msg bot" id="' + loadingId + '">Đang trả lời...</div>';
+        messages.scrollTop = messages.scrollHeight;
+        try {
+            var res = await fetch("AIChat", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "message=" + encodeURIComponent(text)
+            });
+            var reply = await res.text();
+            document.getElementById(loadingId).innerHTML = reply;
+        } catch (err) {
+            document.getElementById(loadingId).innerText = "Lỗi kết nối. Vui lòng thử lại!";
         }
-        function sendAiMessage() {
-            var input = document.getElementById("aiChatInput");
-            var text = input.value.trim();
-            if (!text) return;
-            var messages = document.getElementById("aiChatMessages");
-            messages.innerHTML += '<div class="ai-msg user">' + text + '</div>';
-            messages.innerHTML += '<div class="ai-msg bot">Cam on ban! Day la giao dien frontend de tich hop AI API sau.</div>';
-            input.value = "";
-            messages.scrollTop = messages.scrollHeight;
-        }
-    </script>
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    document.getElementById("aiChatInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") sendAiMessage();
+    });
+</script>
     <!-- Popup đăng xuất -->
         <div id="logout-overlay">
             <div id="logout-box">
