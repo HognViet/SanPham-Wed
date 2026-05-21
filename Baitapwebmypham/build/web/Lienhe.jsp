@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="banner">
-        <img src="image/bannerweb.png" alt="Banner website">
+        <img src="image/banner.png" alt="Banner website">
     </div>
 
     <%
