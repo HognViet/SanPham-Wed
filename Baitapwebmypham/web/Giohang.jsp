@@ -15,10 +15,36 @@
     <title>Gio hang - Website ban hang online</title>
     <link href="<%= request.getContextPath() %>/trangchu.css?v=<%= System.currentTimeMillis() %>" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        .qty-actions {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .qty-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #f0a8c6;
+            border-radius: 7px;
+            background: #fff3f8;
+            color: #d63b77;
+            font-weight: 700;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .qty-btn:hover {
+            background: #ffe3ef;
+        }
+        .qty-value {
+            min-width: 20px;
+            text-align: center;
+            font-weight: 700;
+        }
+    </style>
 </head>
 <body>
     <div class="banner">
-        <img src="image/bannerweb.png" alt="Banner website">
+        <img src="image/banner.png" alt="Banner website">
     </div>
 
     <%
@@ -105,15 +131,22 @@
                                 <tr>
                                     <td><img src="<%= item.hinh %>" style="width:50px"> <%= item.ten %></td>
                                     <td><%= String.format("%,.0f", item.price) %> VND</td>
-                                    <td><%= item.quantity %></td>
-                                    <td><%= String.format("%,.0f", item.price * item.quantity) %> VND</td>
-                                    <td><a class="cart-remove" href="<%= request.getContextPath() %>/XoaKhoiGio?cart_item_id=<%= item.cart_item_id %>">Xóa</a></td>
+                                    <td class="item-qty"><%= item.quantity %></td>
+                                    <td class="item-total" data-unit-price="<%= item.price %>"><%= String.format("%,.0f", item.price * item.quantity) %> VND</td>
+                                    <td>
+                                        <div class="qty-actions">
+                                            <button type="button" class="qty-btn qty-minus" aria-label="Giảm số lượng">-</button>
+                                            <span class="qty-value"><%= item.quantity %></span>
+                                            <button type="button" class="qty-btn qty-plus" aria-label="Tăng số lượng">+</button>
+                                        </div>
+                                        <a class="cart-remove" href="<%= request.getContextPath() %>/XoaKhoiGio?cart_item_id=<%= item.cart_item_id %>">Xóa</a>
+                                    </td>
                                 </tr>
                             <% }} %>
                 </table>
 
                 <div class="cart-summary">
-                <p>Tổng cộng: <strong><%= String.format("%,.0f", total) %> VND</strong></p>
+                <p>Tổng cộng: <strong id="cart-grand-total"><%= String.format("%,.0f", total) %> VND</strong></p>
                 <div class="cart-actions">
                         <a href="Trangchu.jsp" class="btn-detail">Tiếp tục mua hàng</a>
                         <a href="<%= request.getContextPath() %>/thanhtoan.jsp" class="login-btn cart-checkout">Thanh toán</a>
@@ -171,6 +204,59 @@
         if (e.key === "Enter") sendAiMessage();
     });
 </script>
+    <script>
+        (function () {
+            function formatVnd(value) {
+                return Number(value).toLocaleString("vi-VN") + " VND";
+            }
+
+            function refreshGrandTotal() {
+                var sum = 0;
+                document.querySelectorAll(".item-total").forEach(function (el) {
+                    var text = (el.textContent || "").replace(/[^\d]/g, "");
+                    sum += Number(text || 0);
+                });
+                var totalEl = document.getElementById("cart-grand-total");
+                if (totalEl) {
+                    totalEl.textContent = formatVnd(sum);
+                }
+            }
+
+            document.querySelectorAll(".cart-table tbody tr, .cart-table tr").forEach(function (row) {
+                var qtyCell = row.querySelector(".item-qty");
+                var totalCell = row.querySelector(".item-total");
+                var qtyView = row.querySelector(".qty-value");
+                var minusBtn = row.querySelector(".qty-minus");
+                var plusBtn = row.querySelector(".qty-plus");
+
+                if (!qtyCell || !totalCell || !qtyView || !minusBtn || !plusBtn) {
+                    return;
+                }
+
+                var unitPrice = Number(totalCell.getAttribute("data-unit-price") || 0);
+                var qty = Number(qtyView.textContent || 1);
+
+                function render() {
+                    qtyCell.textContent = qty;
+                    qtyView.textContent = qty;
+                    totalCell.textContent = formatVnd(unitPrice * qty);
+                    refreshGrandTotal();
+                }
+
+                plusBtn.addEventListener("click", function () {
+                    qty += 1;
+                    render();
+                });
+
+                minusBtn.addEventListener("click", function () {
+                    if (qty > 1) {
+                        qty -= 1;
+                        render();
+                    }
+                });
+            });
+        })();
+    </script>
     <!-- Popup đăng xuất -->
         <div id="logout-overlay">
             <div id="logout-box">
