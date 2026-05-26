@@ -44,9 +44,27 @@
 
     <body>
 
-
         <div class="banner">
-            <img src="image/bannermypham.png" alt="">
+
+            <div class="banner-slider" id="bannerSlider">
+
+                <div class="banner-slide">
+                    <img src="image/bannermypham.png" alt="">
+                </div>
+
+                <div class="banner-slide">
+                    <img src="image/banner2.png" alt="">
+                </div>
+
+                <div class="banner-slide">
+                    <img src="image/banner3.png" alt="">
+                </div>
+                <div class="banner-slide">
+                    <img src="image/banner4.png" alt="">
+                </div>
+                
+            </div>
+
         </div>
 
 
@@ -183,6 +201,56 @@
 
                 <% } %>
 
+
+                <div class="flash-deals-section" id="flashDeals">
+                    
+                    <div class="flash-deals-header">
+
+                        <span class="flash-title">Flash deals</span>
+
+                        <div class="flash-timer">
+
+                            <span id="flash-hours">02</span>
+                            :
+                            <span id="flash-minutes">00</span>
+                            :
+                            <span id="flash-seconds">00</span>
+
+                        </div>
+
+                    </div>
+                    <div class="flash-nav">
+                        <button type="button" class="flash-nav-btn flash-prev" aria-label="Lướt trái">
+                            <i class="fa-solid fa-chevron-left"></i>
+                        </button>
+                        <button type="button" class="flash-nav-btn flash-next" aria-label="Lướt phải">
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="flash-track-wrap">
+                        <div class="flash-track">
+                            <%
+                                int flashCount = 0;
+                                if (noibatList != null) {
+                                    for (Mypham sp : noibatList) {
+                                        flashCount++;
+                            %>
+                            <a class="flash-item"
+                               href="<%= request.getContextPath()%>/chitietsanpham?id=<%= sp.getId()%>">
+                                <img src="<%= sp.getHinh()%>" alt="<%= sp.getTen()%>">
+                                <div class="flash-info">
+                                    <div class="flash-price"><%= sp.getGia()%></div>
+                                    <div class="flash-name"><%= sp.getTen()%></div>
+                                </div>
+                            </a>
+                            <%      }
+                                }
+                                if (flashCount == 0) { %>
+                            <div class="flash-empty">Chưa có dữ liệu flash deals.</div>
+                            <% }%>
+                        </div>
+                    </div>
+                </div>
 
                 <div id="noibat" class="content-title">
                     Sản phẩm nổi bật
@@ -321,7 +389,6 @@
 
                             <a class="btn-detail"
                                href="<%= request.getContextPath()%>/chitietsanpham?id=<%= sp.getId()%>">
-
                                 Xem chi tiết
 
                             </a>
@@ -396,12 +463,12 @@
 
         <!-- AI CHAT -->
         <button class="ai-chat-toggle"
-                type="button"
-                onclick="toggleAiChat()">
+        type="button"
+        onclick="toggleAiChat()">
+<i class="fa-solid fa-robot"></i>
+   
 
-            <img src="image/chatbox.png" alt="Chatbox">
-
-        </button>
+</button>
 
         <div id="aiChatBox" class="ai-chat-box">
 
@@ -443,41 +510,39 @@
 
 
         <script>
+    function toggleAiChat() {
+        document.getElementById("aiChatBox").classList.toggle("open");
+    }
 
-            function toggleAiChat() {
-                document.getElementById("aiChatBox")
-                        .classList.toggle("open");
-            }
+    async function sendAiMessage() {
+        var input = document.getElementById("aiChatInput");
+        var text = input.value.trim();
+        if (!text) return;
+        var messages = document.getElementById("aiChatMessages");
+        messages.innerHTML += '<div class="ai-msg user">' + text + '</div>';
+        input.value = "";
+        var loadingId = "loading-" + Date.now();
+        messages.innerHTML += '<div class="ai-msg bot" id="' + loadingId + '">Đang trả lời...</div>';
+        
+        messages.scrollTop = messages.scrollHeight;
+        try {
+            var res = await fetch("AIChat", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "message=" + encodeURIComponent(text)
+            });
+            var reply = await res.text();
+            document.getElementById(loadingId).innerHTML = reply;
+        } catch (err) {
+            document.getElementById(loadingId).innerText = "Lỗi kết nối. Vui lòng thử lại!";
+        }
+        messages.scrollTop = messages.scrollHeight;
+    }
 
-            function sendAiMessage() {
-
-                var input =
-                        document.getElementById("aiChatInput");
-
-                var text = input.value.trim();
-
-                if (!text)
-                    return;
-
-                var messages =
-                        document.getElementById("aiChatMessages");
-
-                messages.innerHTML +=
-                        '<div class="ai-msg user">' +
-                        text +
-                        '</div>';
-
-                messages.innerHTML +=
-                        '<div class="ai-msg bot">' +
-                        'Cam on ban! Day la frontend AI demo.' +
-                        '</div>';
-
-                input.value = "";
-
-                messages.scrollTop = messages.scrollHeight;
-            }
-
-        </script>
+    document.getElementById("aiChatInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") sendAiMessage();
+    });
+</script>
 
 
         <script>
@@ -505,11 +570,211 @@
 
         </script>
 
+        <script>
+            (function () {
+                function splitSrcParts(src) {
+                    var cleanSrc = (src || "").trim();
+                    var qIndex = cleanSrc.indexOf("?");
+                    var hIndex = cleanSrc.indexOf("#");
+                    var cutIndex = -1;
+                    if (qIndex >= 0 && hIndex >= 0) {
+                        cutIndex = Math.min(qIndex, hIndex);
+                    } else if (qIndex >= 0) {
+                        cutIndex = qIndex;
+                    } else if (hIndex >= 0) {
+                        cutIndex = hIndex;
+                    }
+                    var noSuffix = cutIndex >= 0 ? cleanSrc.substring(0, cutIndex) : cleanSrc;
+                    var lastSlash = noSuffix.lastIndexOf("/");
+                    var folder = lastSlash >= 0 ? noSuffix.substring(0, lastSlash + 1) : "";
+                    var file = lastSlash >= 0 ? noSuffix.substring(lastSlash + 1) : noSuffix;
+                    return {folder: folder, file: file};
+                }
+
+                document.querySelectorAll(".product-card").forEach(function (card) {
+                    var imgEl = card.querySelector("img");
+                    if (!imgEl) {
+                        return;
+                    }
+
+                    var srcInfo = splitSrcParts(imgEl.getAttribute("src"));
+                    var fileMatch = srcInfo.file.match(/^(sp\d+)(?:_trangchu)?\.(png|jpg|jpeg|webp)$/i);
+                    if (!fileMatch) {
+                        return;
+                    }
+
+                    var baseName = fileMatch[1];
+                    var homeSrc = srcInfo.folder + baseName + "_trangchu.png";
+                    var hoverSrc = srcInfo.folder + baseName + ".jpg";
+
+                    imgEl.setAttribute("src", homeSrc);
+
+                    card.addEventListener("mouseenter", function () {
+                        imgEl.setAttribute("src", hoverSrc);
+                    });
+
+                    card.addEventListener("mouseleave", function () {
+                        imgEl.setAttribute("src", homeSrc);
+                    });
+                });
+
+                document.querySelectorAll(".flash-item img").forEach(function (imgEl) {
+                    var srcInfo = splitSrcParts(imgEl.getAttribute("src"));
+                    var fileMatch = srcInfo.file.match(/^(sp\d+)(?:_trangchu)?\.(png|jpg|jpeg|webp)$/i);
+                    if (!fileMatch) {
+                        return;
+                    }
+
+                    var baseName = fileMatch[1];
+                    var homeSrc = srcInfo.folder + baseName + "_trangchu.png";
+                    var hoverSrc = srcInfo.folder + baseName + ".jpg";
+                    var flashItem = imgEl.closest(".flash-item");
+                    if (!flashItem) {
+                        return;
+                    }
+
+                    imgEl.setAttribute("src", homeSrc);
+
+                    flashItem.addEventListener("mouseenter", function () {
+                        imgEl.setAttribute("src", hoverSrc);
+                    });
+
+                    flashItem.addEventListener("mouseleave", function () {
+                        imgEl.setAttribute("src", homeSrc);
+                    });
+                });
+            })();
+        </script>
+
+        <script>
+            (function () {
+                var flashBox = document.getElementById("flashDeals");
+                if (!flashBox) {
+                    return;
+                }
+                var trackWrap = flashBox.querySelector(".flash-track-wrap");
+                if (!trackWrap) {
+                    return;
+                }
+                var prevBtn = flashBox.querySelector(".flash-prev");
+                var nextBtn = flashBox.querySelector(".flash-next");
+
+                var timerId = null;
+var direction = 1;
+
+/* giảm step để mượt hơn */
+var step = 320;
+
+/* tự động lướt */
+setInterval(function () {
+
+    slideOnce(direction);
+
+    var maxScroll =
+        trackWrap.scrollWidth - trackWrap.clientWidth;
+
+    if (trackWrap.scrollLeft >= maxScroll - step) {
+        direction = -1;
+    }
+
+    if (trackWrap.scrollLeft <= 0) {
+        direction = 1;
+    }
+
+}, 4500);
+
+
+                function slideOnce(dir) {
+                    var maxScroll = trackWrap.scrollWidth - trackWrap.clientWidth;
+                    if (maxScroll <= 0) {
+                        return;
+                    }
+                    var target = dir > 0
+                            ? Math.min(trackWrap.scrollLeft + step, maxScroll)
+                            : Math.max(trackWrap.scrollLeft - step, 0);
+                    trackWrap.scrollTo({
+                        left: target,
+                        behavior: "smooth"
+                    });
+                }
+
+                flashBox.addEventListener("mouseenter", function () {
+                    if (timerId) {
+                        clearTimeout(timerId);
+                    }
+                    timerId = setTimeout(function () {
+                        slideOnce(direction);
+                        direction = direction * -1;
+                    }, 5000);
+                });
+
+                flashBox.addEventListener("mouseleave", function () {
+                    if (timerId) {
+                        clearTimeout(timerId);
+                        timerId = null;
+                    }
+                });
+
+                if (prevBtn) {
+                    prevBtn.addEventListener("click", function () {
+                        slideOnce(-1);
+                    });
+                }
+                if (nextBtn) {
+                    nextBtn.addEventListener("click", function () {
+                        slideOnce(1);
+                    });
+                }
+            })();
+            
+        </script>
+
 
         <%
             String mess = (String) request.getAttribute("mess");
         %>
+<script>
 
+(function () {
+
+    let totalSeconds = 2 * 60 * 60;
+
+    const h = document.getElementById("flash-hours");
+    const m = document.getElementById("flash-minutes");
+    const s = document.getElementById("flash-seconds");
+
+    function updateTimer() {
+
+        let hours =
+            Math.floor(totalSeconds / 3600);
+
+        let minutes =
+            Math.floor((totalSeconds % 3600) / 60);
+
+        let seconds =
+            totalSeconds % 60;
+
+        h.innerText =
+            String(hours).padStart(2, "0");
+
+        m.innerText =
+            String(minutes).padStart(2, "0");
+
+        s.innerText =
+            String(seconds).padStart(2, "0");
+
+        if (totalSeconds > 0) {
+            totalSeconds--;
+        }
+
+    }
+
+    updateTimer();
+
+    setInterval(updateTimer, 1000);
+
+})();
+</script>
         <% if (mess != null) {%>
 
         <div id="popup-overlay">
@@ -608,6 +873,33 @@
             }
 
         </script>
+        <script>
+
+(function () {
+
+    var slider = document.getElementById("bannerSlider");
+
+    if (!slider) return;
+
+    var index = 0;
+    var total = slider.children.length;
+
+    setInterval(function () {
+
+        index++;
+
+        if (index >= total) {
+            index = 0;
+        }
+
+        slider.style.transform =
+            "translateX(-" + (index * 100) + "%)";
+
+    }, 10000);
+
+})();
+
+</script>
 
     </body>
 </html>

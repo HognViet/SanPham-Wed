@@ -17,27 +17,34 @@ public class ChitietsanphamController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String id = request.getParameter("id");
-        if (id == null || id.trim().isEmpty()) {
-            id = "MP001";
+
+        String idParam = request.getParameter("id");
+        Mypham sanpham = null;
+
+        if (idParam != null && !idParam.trim().isEmpty()) {
+            try {
+                int id = Integer.parseInt(idParam.trim());
+                sanpham = myphamDAO.getById(idParam);
+            } catch (NumberFormatException e) {
+                // id không phải số → sanpham = null, xử lý bên dưới
+            }
         }
 
-        Mypham sanpham = myphamDAO.getById(id);
         if (sanpham == null) {
             sanpham = new Mypham();
-            sanpham.setId(id);
-            sanpham.setTen("Khong tim thay san pham");
-            sanpham.setGia("0 VND");
+            sanpham.setId(0);
+            sanpham.setTen("Không tìm thấy sản phẩm");
+            sanpham.setGia(0f);
             sanpham.setHinh("https://picsum.photos/560/460?404");
-            sanpham.setMoTa("Khong co mo ta.");
-            sanpham.setThuongHieu("Dang cap nhat");
-            sanpham.setTrongLuong("Dang cap nhat");
-            sanpham.setMauSac("Dang cap nhat");
-            sanpham.setHanDung("Dang cap nhat");
+            sanpham.setMoTa("Không có mô tả.");
+            sanpham.setThuongHieu("Đang cập nhật");
+            sanpham.setTrongLuong("Đang cập nhật");
+            sanpham.setMauSac("Đang cập nhật");
+            sanpham.setHanDung("Đang cập nhật");
         }
 
         request.setAttribute("sanpham", sanpham);
         request.setAttribute("mvcForward", true);
         request.getRequestDispatcher("/Chitietsanpham.jsp").forward(request, response);
-    } 
+    }
 }

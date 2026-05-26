@@ -13,9 +13,9 @@
         return;
     }
     Mypham sanpham = (Mypham) request.getAttribute("sanpham");
-    String id = sanpham != null ? sanpham.getId() : "MP001";
+    int id = sanpham != null ? sanpham.getId() : 0;
     String ten = sanpham != null ? sanpham.getTen() : "Khong tim thay san pham";
-    String gia = sanpham != null ? sanpham.getGia() : "0 VND";
+    float gia = sanpham != null ? sanpham.getGia() : 0;
     String hinh = sanpham != null ? sanpham.getHinh() : "https://picsum.photos/560/460?404";
     String moTa = sanpham != null ? sanpham.getMoTa() : "Khong co mo ta.";
     String thuongHieu = sanpham != null ? sanpham.getThuongHieu() : "Dang cap nhat";
@@ -33,7 +33,8 @@
 </head>
 <body>
     <div class="banner">
-        <img src="image/bannerweb.png" alt="Banner website">
+        
+        <img src="image/banner.png" alt="Banner website">
     </div>
 
     <%
@@ -127,8 +128,15 @@
                     <form action="<%= request.getContextPath() %>/ThemSPVaoGioHang" method="post">
                         <input type="hidden" name="mypham_id" value="<%= id %>">
                         <input type="hidden" name="price" value="<%= gia %>">
-                        <button type="submit" class="btn-detail">Thêm vào giỏ</button>
-                    </form>                        <a href="thanhtoan.jsp" class="login-btn">Mua ngay</a>
+                        <button type="submit" class="btn-detail btn-action btn-add-cart">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            <span>Thêm vào giỏ</span>
+                        </button>
+                    </form>
+                    <a href="thanhtoan.jsp" class="login-btn btn-action btn-buy-now">
+                        <i class="fa-solid fa-bag-shopping"></i>
+                        <span>Mua ngay</span>
+                    </a>
                     </div>
                 </div>
             </div>
@@ -151,19 +159,75 @@
         Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
     </div>
     <script>
-        function toggleAiChat() {
-            document.getElementById("aiChatBox").classList.toggle("open");
+    function toggleAiChat() {
+        document.getElementById("aiChatBox").classList.toggle("open");
+    }
+
+    async function sendAiMessage() {
+        var input = document.getElementById("aiChatInput");
+        var text = input.value.trim();
+        if (!text) return;
+        var messages = document.getElementById("aiChatMessages");
+        messages.innerHTML += '<div class="ai-msg user">' + text + '</div>';
+        input.value = "";
+        var loadingId = "loading-" + Date.now();
+        messages.innerHTML += '<div class="ai-msg bot" id="' + loadingId + '">Đang trả lời...</div>';
+        messages.scrollTop = messages.scrollHeight;
+        try {
+            var res = await fetch("AIChat", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "message=" + encodeURIComponent(text)
+            });
+            var reply = await res.text();
+            document.getElementById(loadingId).innerHTML = reply;
+        } catch (err) {
+            document.getElementById(loadingId).innerText = "Lỗi kết nối. Vui lòng thử lại!";
         }
-        function sendAiMessage() {
-            var input = document.getElementById("aiChatInput");
-            var text = input.value.trim();
-            if (!text) return;
-            var messages = document.getElementById("aiChatMessages");
-            messages.innerHTML += '<div class="ai-msg user">' + text + '</div>';
-            messages.innerHTML += '<div class="ai-msg bot">Cam on ban! Day la giao dien frontend de tich hop AI API sau.</div>';
-            input.value = "";
-            messages.scrollTop = messages.scrollHeight;
-        }
+        messages.scrollTop = messages.scrollHeight;
+    }
+
+    document.getElementById("aiChatInput").addEventListener("keypress", function(e) {
+        if (e.key === "Enter") sendAiMessage();
+    });
+</script>
+    <script>
+        (function () {
+            var addCartBtn = document.querySelector(".detail-actions .btn-add-cart");
+            var cartIconTop = document.querySelector(".top-menu .cart-icon");
+            if (!addCartBtn || !cartIconTop) {
+                return;
+            }
+
+            addCartBtn.addEventListener("click", function (event) {
+                var form = addCartBtn.closest("form");
+                if (!form) {
+                    return;
+                }
+                event.preventDefault();
+
+                var start = addCartBtn.getBoundingClientRect();
+                var end = cartIconTop.getBoundingClientRect();
+
+                var flyingIcon = document.createElement("i");
+                flyingIcon.className = "fa-solid fa-cart-shopping fly-cart-icon";
+                flyingIcon.style.left = (start.left + start.width / 2) + "px";
+                flyingIcon.style.top = (start.top + start.height / 2) + "px";
+                document.body.appendChild(flyingIcon);
+
+                requestAnimationFrame(function () {
+                    var moveX = (end.left + end.width / 2) - (start.left + start.width / 2);
+                    var moveY = (end.top + end.height / 2) - (start.top + start.height / 2);
+                    flyingIcon.style.transform = "translate(" + moveX + "px, " + moveY + "px) scale(0.7)";
+                    flyingIcon.style.opacity = "0.2";
+                });
+
+                setTimeout(function () {
+                    flyingIcon.remove();
+                    form.submit();
+                }, 900);
+            });
+        })();
     </script>
     <!-- Popup đăng xuất -->
     <div id="logout-overlay">

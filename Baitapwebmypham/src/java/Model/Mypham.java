@@ -1,9 +1,9 @@
 package Model;
 
 public class Mypham {
-    private String id;
+    private int id;          // ĐÃ SỬA: String → int
     private String ten;
-    private String gia;
+    private float gia;       // ĐÃ SỬA: String → float
     private String hinh;
     private String moTa;
     private String thuongHieu;
@@ -12,11 +12,11 @@ public class Mypham {
     private String hanDung;
     private String danhMuc;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -28,11 +28,11 @@ public class Mypham {
         this.ten = ten;
     }
 
-    public String getGia() {
+    public float getGia() {
         return gia;
     }
 
-    public void setGia(String gia) {
+    public void setGia(float gia) {
         this.gia = gia;
     }
 

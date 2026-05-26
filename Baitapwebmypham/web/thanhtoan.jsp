@@ -32,7 +32,7 @@
     %>
 <body>
     <div class="banner">
-        <img src="image/bannermypham.png" alt="Banner website">
+        <img src="image/banner.png" alt="Banner website">
     </div>
 
     <nav class="top-menu">
