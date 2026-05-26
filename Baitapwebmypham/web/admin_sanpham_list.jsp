@@ -35,9 +35,8 @@
                 </form>
             </div>
             <div class="nav-right">
-                <a href="<%= request.getContextPath()%>/AdminUserServlet?action=list">User</a>
-                <a href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Đơn hàng</a>
-                <a href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Giỏ hàng</a>
+                <a href="<%= request.getContextPath()%>/AdminController?action=listUser">User</a>
+                <a href="<%= request.getContextPath()%>/AdminController?action=listOrder">Đơn hàng</a>
             </div>
         </nav>
 
@@ -46,10 +45,21 @@
                 <div class="box">
                     <div class="box-title">Danh mục quản trị</div>
                     <div class="left-menu">
-                        <a href="<%= request.getContextPath()%>/AdminUserServlet?action=list">Quản lý người dùng</a>
-                        <a href="<%= request.getContextPath()%>/AdminSanPhamServlet?action=list">Sản phẩm</a>
-                        <a href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Đơn hàng</a>
-                        <a href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Giỏ hàng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listUser">Quản lý người dùng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listProfuct">Sản phẩm</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listOrder">Đơn hàng</a>
+                        <a href="<%= request.getContextPath()%>/trangchu">Quay lại trang người dùng</a>
+                    </div>
+                </div>
+                    <div class="box">
+                    <div class="box-title">Tìm kiếm sản phẩm</div>
+                    <div class="left-menu" style="padding: 12px;">
+                        <form action="<%= request.getContextPath()%>/AdminUserServlet" method="get">
+                            <input type="text" name="keyword" placeholder="mã sản phẩm / tên sản phẩm...." required
+                                   style="width:100%;padding:11px 12px;border:1px solid #dcdcdc;border-radius:8px;outline:none;">
+                            <input type="hidden" name="action" value="search">
+                            <button type="submit" class="login-btn" style="width:100%;margin-top:10px;">TÌM</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -69,8 +79,8 @@
                                 <th>Tên</th>
                                 <th>Giá</th>
                                 <th>Danh mục</th>
-                                <th>Hình</th>
-                                <th>Thao tác</th>
+                                <th>Màu Sắc</th>
+                                <th>Thương Hiệu</th>
                             </tr>
                         </thead>
                         <tbody>

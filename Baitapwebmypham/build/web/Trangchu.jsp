@@ -4,7 +4,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="Model.Users"%>
 <%@page import="Model.GioHangDAO"%>
-
+<%@page import="java.util.List"%>
+<%@page import="Model.Mypham"%>
 <%
     if (request.getAttribute("mvcForward") == null) {
         response.sendRedirect(request.getContextPath() + "/trangchu");
@@ -79,27 +80,16 @@
 
 
             <div class="nav-center">
-
-                <form action="<%= request.getContextPath()%>/chitietsanpham"
-                      method="get">
-
-                    <input type="text"
-                           name="id"
-                           placeholder="Tìm sản phẩm, thương hiệu bạn mong muốn..."
-                           required>
-
-                    <button type="submit">
-                        <i class="fa fa-search"></i>
-                    </button>
-
+                <form action="<%= request.getContextPath() %>/trangchu" method="get">
+                    <input type="text" name="keyword" placeholder="Tìm sản phẩm, thương hiệu bạn mong muốn..." required>
+                    <button type="submit"><i class="fa fa-search"></i></button>
                 </form>
-
             </div>
 
 
             <div class="nav-right">
 
-                <a href="#noibat">Sản phẩm</a>
+                <a href="Trangchu.jsp">Sản phẩm</a>
 
                 <% if (userLogin == null) {%>
 
@@ -251,8 +241,31 @@
                         </div>
                     </div>
                 </div>
+                <%
+                    List<Mypham> ketQua = (List<Mypham>) request.getAttribute("ketQua");
+                    String keyword = (String) request.getAttribute("keyword");
+                %>
 
-                <div id="noibat" class="content-title">
+                <% if (ketQua != null) { %>
+                    <%-- HIỆN KẾT QUẢ TÌM KIẾM --%>
+                    <div class="content-title">Kết quả tìm kiếm: "<%= keyword %>"</div>
+                    <div class="grid">
+                        <% if (ketQua.isEmpty()) { %>
+                            <p>Không tìm thấy sản phẩm nào!</p>
+                        <% } else { for (Mypham sp : ketQua) { %>
+                            <div class="card product-card">
+                                <img src="<%= sp.getHinh() %>" alt="<%= sp.getTen() %>">
+                                <div class="card-body">
+                                    <div class="code">Mã SP: <%= sp.getId() %></div>
+                                    <div class="name"><%= sp.getTen() %></div>
+                                    <div class="price"><%= sp.getGia() %></div>
+                                    <a class="btn-detail" href="<%= request.getContextPath() %>/chitietsanpham?id=<%= sp.getId() %>">Xem chi tiết</a>
+                                </div>
+                            </div>
+                        <% }} %>
+                    </div>
+                <% } else { %>
+                    <div id="noibat" class="content-title">
                     Sản phẩm nổi bật
                 </div>
 
@@ -457,6 +470,8 @@
                     <% } %>
 
                 </div>
+                <% } %>       
+                
 
             </div>
         </div>

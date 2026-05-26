@@ -141,5 +141,26 @@ public class MyphamDAO {
 
     return list;
 }
+    public List<Mypham> timKiem(String keyword) throws Exception {
+    Connection cnn = dbConnection.getConnection();
+    List<Mypham> list = new ArrayList<>();
+    String sql = "SELECT * FROM sanpham WHERE ten LIKE ? OR thuong_hieu LIKE ?";
+    PreparedStatement ps = cnn.prepareStatement(sql);
+    ps.setString(1, "%" + keyword + "%");
+    ps.setString(2, "%" + keyword + "%");
+    ResultSet rs = ps.executeQuery();
+    while (rs.next()) {
+        Mypham mp = new Mypham();
+        mp.setId(Integer.parseInt(rs.getString("id")) );
+        mp.setTen(rs.getString("ten"));
+        mp.setGia(Float.parseFloat(rs.getString("gia")) );
+        mp.setHinh(rs.getString("hinh"));
+        mp.setMoTa(rs.getString("mo_ta"));
+        mp.setThuongHieu(rs.getString("thuong_hieu"));
+        list.add(mp);
+    }
+    rs.close(); ps.close(); cnn.close();
+    return list;
+}
 
 }

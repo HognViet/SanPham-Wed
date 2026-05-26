@@ -25,7 +25,7 @@
                 </a>
             </div>
             <div class="nav-right">
-                <a href="<%= request.getContextPath()%>/AdminUserServlet?action=list">
+                <a href="<%= request.getContextPath()%>/AdminController?action=return">
                     Quay lại
                 </a>
             </div>
@@ -36,10 +36,9 @@
                 <div class="box">
                     <div class="box-title">Danh mục quản trị</div>
                     <div class="left-menu">
-                        <a href="<%= request.getContextPath()%>/AdminUserServlet?action=list">Quản lý người dùng</a>
-                        <a href="<%= request.getContextPath()%>/AdminSanPhamServlet?action=list">Sản phẩm</a>
-                        <a href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Đơn hàng</a>
-                        <a href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Giỏ hàng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listUser">Quản lý người dùng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listProfuct">Sản phẩm</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listOrder">Đơn hàng</a>
                     </div>
                 </div>
             </div>
@@ -96,7 +95,7 @@
                         <div style="display:flex; gap:10px; margin-top: 14px;">
                             <button type="submit" class="login-btn" style="flex:1;">LƯU</button>
                             <a class="btn-detail" style="display:flex; align-items:center; justify-content:center; padding:11px 16px;"
-                               href="<%= request.getContextPath()%>/AdminUserServlet?action=list">HỦY</a>
+                               href="<%= request.getContextPath()%>/AdminController?action=return">HỦY</a>
                         </div>
                     </form>
                 </div>

@@ -69,10 +69,9 @@
                 <div class="box">
                     <div class="box-title">Danh mục quản trị</div>
                     <div class="left-menu">
-                        <a href="<%= request.getContextPath()%>/AdminUserServlet?action=list">Quản lý người dùng</a>
-                        <a href="<%= request.getContextPath()%>/AdminSanPhamServlet?action=list">Sản phẩm</a>
-                        <a href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Đơn hàng</a>
-                        <a href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Giỏ hàng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listUser">Quản lý người dùng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listProfuct">Sản phẩm</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listOrder">Đơn hàng</a>
                         <a href="<%= request.getContextPath()%>/trangchu">Quay lại trang người dùng</a>
                     </div>
                 </div>
@@ -139,46 +138,9 @@
             </div>
         </div>
 
-        <!-- AI CHAT -->
-        <button class="ai-chat-toggle" type="button" onclick="toggleAiChat()">
-            <img src="image/chatbox.png" alt="Chatbox">
-        </button>
-        <div id="aiChatBox" class="ai-chat-box">
-            <div class="ai-chat-header">AI Trợ lý</div>
-            <div id="aiChatMessages" class="ai-chat-messages">
-                <div class="ai-msg bot">Xin chào! Bạn có thể quản lý người dùng tại đây.</div>
-            </div>
-            <div class="ai-chat-input">
-                <input id="aiChatInput" type="text" placeholder="Nhập câu hỏi...">
-                <button type="button" onclick="sendAiMessage()">Gửi</button>
-            </div>
-        </div>
-
         <div class="footer">
             Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
         </div>
-
-        <script>
-            function toggleAiChat() {
-                document.getElementById("aiChatBox").classList.toggle("open");
-            }
-            function sendAiMessage() {
-                var input = document.getElementById("aiChatInput");
-                var text = input.value.trim();
-                if (!text) return;
-                var messages = document.getElementById("aiChatMessages");
-                messages.innerHTML += '<div class="ai-msg user">' + text + '</div>';
-                messages.innerHTML += '<div class="ai-msg bot">Cam on ban! Day la giao dien frontend de tich hop AI API sau.</div>';
-                input.value = "";
-                messages.scrollTop = messages.scrollHeight;
-            }
-            function showLogoutPopup() {
-                document.getElementById("logout-overlay").style.display = "flex";
-            }
-            function closeLogoutPopup() {
-                document.getElementById("logout-overlay").style.display = "none";
-            }
-        </script>
 
         <div id="logout-overlay">
             <div id="logout-box">

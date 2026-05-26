@@ -22,23 +22,44 @@ public class TrangchuController extends HttpServlet {
         List<Mypham> hangmoiList = myphamDAO.getByDanhMuc("hangmoi", 30);
         List<Mypham> banchayList = myphamDAO.getByDanhMuc("banchay", 30);
         List<Mypham> giamgiaList = myphamDAO.getByDanhMuc("giamgia", 30);
-
+        String keyword = request.getParameter("keyword");
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            try {
+                List<Mypham> ketQua = myphamDAO.timKiem(keyword);
+                request.setAttribute("ketQua", ketQua);
+                request.setAttribute("keyword", keyword);
+                request.setAttribute("mvcForward", true);
+                request.getRequestDispatcher("/Trangchu.jsp").forward(request, response);
+                return;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                System.getLogger(TrangchuController.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        }
+        
         request.setAttribute("noibatList", noibatList);
         request.setAttribute("hangmoiList", hangmoiList);
         request.setAttribute("banchayList", banchayList);
         request.setAttribute("giamgiaList", giamgiaList);
         request.setAttribute("mvcForward", true);
         String mess = request.getParameter("mess");
+        
+        if(mess != null && mess.equals("successAdmin")){
+            request.setAttribute("mess", "Đăng nhập quyền Admin");
+            request.getRequestDispatcher("/trangchuadmin.jsp").forward(request, response);
+            return;
+        }
         if (mess != null && mess.equals("success")) {
             request.setAttribute("mess", "Đăng ký tài khoản thành công!");
         } else if (mess != null && mess.equals("successlogin")) {
-            request.setAttribute("mess", "Đăng nhập thành công!");
+            request.setAttribute("mess", "Người dùng đăng nhập thành công !");
         }else if (mess != null && mess.equals("orderSuccess")) {
             request.setAttribute("mess", "Đặt hàng thành công! Cảm ơn bạn đã mua hàng.");
         }
         if (noibatList.isEmpty() && hangmoiList.isEmpty() && banchayList.isEmpty() && giamgiaList.isEmpty()) {
             request.setAttribute("dbWarning", "Khong lay duoc du lieu. Hay kiem tra: MySQL da chay, da import webmypham_demo.sql, dung DB webmypham.");
         }
+        
         request.getRequestDispatcher("/Trangchu.jsp").forward(request, response);
     }
 }

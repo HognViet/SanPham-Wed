@@ -1,10 +1,5 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="Model.Order"%>
 <%@page import="java.util.List"%>
-<%
-    List<Order> orders = (List<Order>) request.getAttribute("orders");
-    if (orders == null) orders = java.util.Collections.emptyList();
-%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,10 +18,10 @@
                 <div class="box">
                     <div class="box-title">Danh mục quản trị</div>
                     <div class="left-menu">
-                        <a href="<%= request.getContextPath()%>/AdminUserServlet?action=list">Quản lý người dùng</a>
-                        <a href="<%= request.getContextPath()%>/AdminSanPhamServlet?action=list">Sản phẩm</a>
-                        <a href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Đơn hàng</a>
-                        <a href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Giỏ hàng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listUser">Quản lý người dùng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listProfuct">Sản phẩm</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listOrder">Đơn hàng</a>
+                        <a href="<%= request.getContextPath()%>/trangchu">Quay lại trang người dùng</a> 
                     </div>
                 </div>
 
@@ -48,7 +43,7 @@
                 <div class="login-wrapper" style="max-width: 1150px;">
                     <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:10px;">
                         <a class="btn-detail" href="<%= request.getContextPath()%>/AdminDonHangServlet?action=add">+ Thêm đơn hàng</a>
-                        <div style="color:#777;">Tổng: <%= orders.size()%></div>
+ 
                     </div>
 
                     <table class="cart-table">
@@ -62,29 +57,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% if (orders.isEmpty()) { %>
-                                <tr><td colspan="5">Chưa có dữ liệu.</td></tr>
-                            <% } else { %>
-                                <% for (Order o : orders) { %>
-                                    <tr>
-                                        <td><%= o.order_id%></td>
-                                        <td>
-                                            Mauser: <%= o.mauser%><br>
-                                            <span style="color:#777;"><%= o.accname%></span>
-                                        </td>
-                                        <td><%= String.format("%,.0f", o.total_price)%></td>
-                                        <td><%= o.address%></td>
-                                        <td>
-                                            <a class="cart-remove" style="color:#1f6feb;" href="<%= request.getContextPath()%>/AdminDonHangServlet?action=detail&order_id=<%= o.order_id%>">Chi tiết</a>
-                                            &nbsp;|&nbsp;
-                                            <a class="cart-remove" href="<%= request.getContextPath()%>/AdminDonHangServlet?action=delete&order_id=<%= o.order_id%>"
-                                               onclick="return confirm('Xóa đơn hàng này?');">Xóa</a>
-                                            &nbsp;|&nbsp;
-                                            <a class="cart-remove" style="color:#1f6feb;" href="<%= request.getContextPath()%>/AdminDonHangServlet?action=edit&order_id=<%= o.order_id%>">Sửa</a>
-                                        </td>
-                                    </tr>
-                                <% } %>
-                            <% } %>
+                            
                         </tbody>
                     </table>
                 </div>

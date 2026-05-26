@@ -93,10 +93,9 @@
                 <div class="box">
                     <div class="box-title">Danh mục quản trị</div>
                     <div class="left-menu">
-                        <a href="<%= request.getContextPath()%>/AdminUserServlet?action=list">Quản lý người dùng</a>
-                        <a href="<%= request.getContextPath()%>/AdminSanPhamServlet?action=list">Sản phẩm</a>
-                        <a href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Đơn hàng</a>
-                        <a href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Giỏ hàng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listUser">Quản lý người dùng</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listProfuct">Sản phẩm</a>
+                        <a href="<%= request.getContextPath()%>/AdminController?action=listOrder">Đơn hàng</a>
                         <a href="<%= request.getContextPath()%>/trangchu">Quay lại trang người dùng</a>
                     </div>
                 </div>
@@ -131,60 +130,24 @@
 
                     <div style="display:flex;gap:12px;flex-wrap:wrap;">
                         <a class="btn-detail" style="padding:12px 16px;"
-                           href="<%= request.getContextPath()%>/AdminUserServlet?action=list">Quản lý User</a>
+                           href="<%= request.getContextPath()%>/AdminController?action=listUser">Quản lý User</a>
                         <a class="btn-detail" style="padding:12px 16px;"
-                           href="<%= request.getContextPath()%>/AdminSanPhamServlet?action=list">Quản lý Sản phẩm</a>
+                           href="<%= request.getContextPath()%>/AdminController?action=listProfuct">Quản lý Sản phẩm</a>
                         <a class="btn-detail" style="padding:12px 16px;"
-                           href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Quản lý Đơn hàng</a>
-                        <a class="btn-detail" style="padding:12px 16px;"
-                           href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Quản lý Giỏ hàng</a>
+                           href="<%= request.getContextPath()%>/AdminController?action=listOrder">Quản lý Đơn hàng</a>
+                       
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- AI CHAT -->
-        <button class="ai-chat-toggle"
-                type="button"
-                onclick="toggleAiChat()">
-            <img src="image/chatbox.png" alt="Chatbox">
-        </button>
-        <div id="aiChatBox" class="ai-chat-box">
-            <div class="ai-chat-header">AI Trợ lý</div>
-            <div id="aiChatMessages" class="ai-chat-messages">
-                <div class="ai-msg bot">
-                    Xin chào! Tôi có thể hỗ trợ quản lý: tìm người dùng/sản phẩm và kiểm tra dữ liệu.
-                </div>
-            </div>
-            <div class="ai-chat-input">
-                <input id="aiChatInput" type="text" placeholder="Nhập câu hỏi...">
-                <button type="button" onclick="sendAiMessage()">Gửi</button>
-            </div>
-        </div>
+
 
         <div class="footer">
             Nguyen Thi Phuong Thao - 25/11/2005 | Ngo Van Son 28/02/2004 - |Ninh Hong Viet 09/11/2005
         </div>
 
-        <script>
-            function toggleAiChat() {
-                document.getElementById("aiChatBox").classList.toggle("open");
-            }
 
-            function sendAiMessage() {
-                var input = document.getElementById("aiChatInput");
-                var text = input.value.trim();
-
-                if (!text)
-                    return;
-
-                var messages = document.getElementById("aiChatMessages");
-                messages.innerHTML += '<div class="ai-msg user">' + text + '</div>';
-                messages.innerHTML += '<div class="ai-msg bot">Cam on ban! Day la giao dien frontend de tich hop AI API sau.</div>';
-                input.value = "";
-                messages.scrollTop = messages.scrollHeight;
-            }
-        </script>
 
         <!-- POPUP LOGOUT -->
         <div id="logout-overlay">
@@ -214,5 +177,53 @@
                 document.getElementById("logout-overlay").style.display = "none";
             }
         </script>
+        <%
+            String mess = (String) request.getAttribute("mess");
+        %>
+        <% if (mess != null) {%>
+
+        <div id="popup-overlay">
+
+            <div id="popup-box">
+
+                <i class="fas fa-circle-check"></i>
+
+                <p id="popup-message"
+                   class="mess-success">
+
+                    <%= mess%>
+
+                </p>
+
+                <button id="popup-close"
+                        onclick="closePopup()">
+
+                    Đóng
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <script>
+
+            window.addEventListener("load", function () {
+
+                document.getElementById("popup-overlay")
+                        .style.display = "flex";
+
+            });
+
+            function closePopup() {
+
+                document.getElementById("popup-overlay")
+                        .style.display = "none";
+
+            }
+
+        </script>
+
+        <% }%>
     </body>
 </html>
