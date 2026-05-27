@@ -31,7 +31,7 @@
 
         <nav class="top-menu">
             <div class="nav-left">
-                <a href="<%= request.getContextPath()%>/trangchu">
+                <a href="<%= request.getContextPath()%>/trangchuadmin.jsp">
                     <i class="fa fa-home"></i>
                 </a>
             </div>
@@ -94,7 +94,7 @@
                 <div class="content-title">Quản lý người dùng</div>
                 <div class="login-wrapper" style="max-width: 1100px;">
                     <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom: 10px;">
-                        <a class="btn-detail" href="<%= request.getContextPath()%>/AdminUserServlet?action=add">+ Thêm người dùng</a>
+                        
                         <div style="color:#777;">Tổng: <%= users.size()%></div>
                     </div>
 

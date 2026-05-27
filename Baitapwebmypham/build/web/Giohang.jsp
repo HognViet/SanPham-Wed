@@ -106,8 +106,7 @@
                     <a href="Trangchu.jsp#banchay">Bán chạy </a>
                     <a href="Trangchu.jsp#giamgia">Giảm giá </a>
                     <form class="home-search-form" action="<%= request.getContextPath() %>/Chitietsanpham.jsp" method="get">
-                        <input type="text" name="id" placeholder="Tìm kiếm..." required><br>
-                    <button type="submit">Tìm kiếm</button>
+                      
                 </div>
             </div>
         </div>

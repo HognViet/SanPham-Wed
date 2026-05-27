@@ -12,11 +12,33 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Admin - Quản lý đơn hàng</title>
         <link href="<%= request.getContextPath()%>/trangchu.css?v=<%= System.currentTimeMillis()%>" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
     <body>
         <div class="banner">
             <img src="image/bannermypham.png" alt="">
         </div>
+         <nav class="top-menu">
+            <div class="nav-left">
+    <a href="<%= request.getContextPath()%>/trangchuadmin.jsp">
+        <i class="fa fa-home"></i>
+    </a>
+</div>
+            <div class="nav-center">
+                <form action="<%= request.getContextPath()%>/AdminSanPhamServlet" method="get">
+                    <input type="text" name="keyword" placeholder="Admin: Tìm sản phẩm..." required>
+                    <input type="hidden" name="action" value="search">
+                    <button type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="nav-right">
+                <a href="<%= request.getContextPath()%>/AdminUserServlet?action=list">User</a>
+                <a href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Đơn hàng</a>
+                <a href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Giỏ hàng</a>
+            </div>
+        </nav>
 
         <div class="container">
             <div class="left">
@@ -47,7 +69,7 @@
                 <div class="content-title">Quản lý đơn hàng</div>
                 <div class="login-wrapper" style="max-width: 1150px;">
                     <div style="display:flex; justify-content: space-between; align-items:center; margin-bottom:10px;">
-                        <a class="btn-detail" href="<%= request.getContextPath()%>/AdminDonHangServlet?action=add">+ Thêm đơn hàng</a>
+                    
                         <div style="color:#777;">Tổng: <%= orders.size()%></div>
                     </div>
 

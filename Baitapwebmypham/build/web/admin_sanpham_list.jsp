@@ -21,10 +21,10 @@
 
         <nav class="top-menu">
             <div class="nav-left">
-                <a href="<%= request.getContextPath()%>/trangchu">
-                    <i class="fa fa-home"></i>
-                </a>
-            </div>
+    <a href="<%= request.getContextPath()%>/trangchuadmin.jsp">
+        <i class="fa fa-home"></i>
+    </a>
+</div>
             <div class="nav-center">
                 <form action="<%= request.getContextPath()%>/AdminSanPhamServlet" method="get">
                     <input type="text" name="keyword" placeholder="Admin: Tìm sản phẩm..." required>

@@ -81,10 +81,7 @@
                     </span>
                 </a>
 
-                <!-- LIÊN HỆ -->
-                <a href="<%= request.getContextPath()%>/Lienhe.jsp">
-                    <i class="fa-solid fa-headset"></i> Liên hệ
-                </a>
+                
             </div>
         </nav>
 
@@ -136,8 +133,7 @@
                            href="<%= request.getContextPath()%>/AdminSanPhamServlet?action=list">Quản lý Sản phẩm</a>
                         <a class="btn-detail" style="padding:12px 16px;"
                            href="<%= request.getContextPath()%>/AdminDonHangServlet?action=list">Quản lý Đơn hàng</a>
-                        <a class="btn-detail" style="padding:12px 16px;"
-                           href="<%= request.getContextPath()%>/AdminGioHangServlet?action=list">Quản lý Giỏ hàng</a>
+                        
                     </div>
                 </div>
             </div>
